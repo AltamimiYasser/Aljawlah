@@ -4,8 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
-const adminAuth = require('./middleware/adminAuth');
-
 const app = express();
 
 // app middleware setup
@@ -25,9 +23,6 @@ mongoose.connect(
 
 // routes setup
 app.use('/api/auth/admin', require('./routes/auth/admin'));
-app.get('/', adminAuth, (req, res) => {
-  res.send('admin protected');
-});
 
 // production setup
 if (process.env.NODE_ENV === 'production') {

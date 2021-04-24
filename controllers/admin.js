@@ -20,8 +20,18 @@ exports.logoutAdmin = (req, res) => {
 };
 
 exports.isLoggedIn = (req, res) => {
-  // check token exists
-  // validate token
-  // return true
-  // err? return false
+  try {
+    // get token
+    const token = req.cookies.adminToken;
+
+    // exists?
+    if (!token) res.json(false);
+
+    // valid?
+    const verified = jwt.verify(token, process.env.ADMIN_TOKEN_SECRET);
+
+    res.json(true);
+  } catch (err) {
+    res.json(false);
+  }
 };
