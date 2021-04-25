@@ -25,7 +25,7 @@ exports.isLoggedIn = (req, res) => {
     const token = req.cookies.adminToken;
 
     // exists?
-    if (!token) res.json(false);
+    if (!token) return res.json(false);
 
     // valid?
     const verified = jwt.verify(token, process.env.ADMIN_TOKEN_SECRET);

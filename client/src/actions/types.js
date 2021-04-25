@@ -1,4 +1,0 @@
-export const SET_ALERT = 'SET_ALERT';
-export const REMOVE_ALERT = 'REMOVE_ALERT';
-export const ADMIN_LOGIN_SUCCESS = 'ADMIN_LOGIN_SUCCESS';
-export const ADMIN_LOGIN_FAILED = 'ADMIN_LOGIN_FAILED';
