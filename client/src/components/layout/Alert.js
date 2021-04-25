@@ -9,6 +9,10 @@ const StyledAlert = styled.div`
   opacity: 0.9;
   color: #fff;
   background-color: ${(props) => props.color};
+  min-width: 350px;
+  text-align: center;
+  font-family: 'Raleway';
+  border-radius: 8px;
 `;
 // ------------------STYLE-------------------------- //
 
@@ -19,7 +23,7 @@ const Alert = () => {
       {alerts !== null &&
         alerts.length > 0 &&
         alerts.map((alert) => (
-          <StyledAlert key={alert.id} color={`${alert.alertType}`}>
+          <StyledAlert key={alert.id} color={`${alert.alertColor}`}>
             {alert.msg}
           </StyledAlert>
         ))}
