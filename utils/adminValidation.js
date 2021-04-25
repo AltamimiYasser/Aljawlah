@@ -15,7 +15,6 @@ exports.validateAdminLogIn = [
   }),
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty())
       return res.status(401).json({ errors: errors.array() });
 
