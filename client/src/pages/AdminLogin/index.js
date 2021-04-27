@@ -1,34 +1,41 @@
-import React, { useContext } from 'react';
-import AdminContext from '../../context/adminContext';
-import { Formik, Form, Field } from 'formik';
-import axios from 'axios';
-import { Redirect } from 'react-router';
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import FormControl from '../../components/form';
 
 const AdminLogin = () => {
-  const { loggedIn, getLoggedIn } = useContext(AdminContext);
-
-  const formInitialValues = { username: '', password: '' };
-
-  const handelSubmit = async ({ username, password }) => {
-    try {
-      await axios.post('/api/auth/admin/login', { username, password });
-      getLoggedIn();
-    } catch (err) {
-      console.error(err);
-      //TODO: ada notification alert
-    }
+  // form
+  const initialValues = { username: '', password: '' };
+  const validationSchema = Yup.object({
+    username: Yup.string().required('Required'),
+    password: Yup.string().required('Required'),
+  });
+  const handelSubmit = (values) => {
+    console.log(values);
   };
   return (
-    <>
-      {loggedIn ? <Redirect to='/register' /> : null}
-      <Formik initialValues={formInitialValues} onSubmit={handelSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handelSubmit}>
+      {(formik) => (
         <Form>
-          <Field name='username' placeholder='Email' type='text' />
-          <Field name='password' placeholder='password' type='password' />
-          <button type='submit'>Login</button>
+          <FormControl
+            control='input'
+            type='text'
+            label='Username'
+            name='username'
+          />
+          <FormControl
+            control='input'
+            type='password'
+            label='Password'
+            name='password'
+          />
+          <button type='submit'>Submit</button>
         </Form>
-      </Formik>
-    </>
+      )}
+    </Formik>
   );
 };
 
