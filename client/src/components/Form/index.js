@@ -8,7 +8,7 @@ const FormControl = ({ control, ...rest }) => {
       return <Input {...rest} />;
 
     default:
-      return <div>Nothing</div>;
+      return null;
   }
 };
 

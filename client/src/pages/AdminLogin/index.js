@@ -1,7 +1,8 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FormControl from '../../components/form';
+import { FormWrapper, Title, FormFields, Button } from './Elements';
 
 const AdminLogin = () => {
   // form
@@ -19,21 +20,26 @@ const AdminLogin = () => {
       validationSchema={validationSchema}
       onSubmit={handelSubmit}>
       {(formik) => (
-        <Form>
-          <FormControl
-            control='input'
-            type='text'
-            label='Username'
-            name='username'
-          />
-          <FormControl
-            control='input'
-            type='password'
-            label='Password'
-            name='password'
-          />
-          <button type='submit'>Submit</button>
-        </Form>
+        <FormWrapper>
+          <Title>Admin Login</Title>
+          <FormFields>
+            <FormControl
+              control='input'
+              type='text'
+              name='username'
+              placeholder='Username'
+              autocomplete='off'
+            />
+            <FormControl
+              control='input'
+              type='password'
+              name='password'
+              placeholder='Password'
+              autocomplete='off'
+            />
+            <Button type='submit'>Submit</Button>
+          </FormFields>
+        </FormWrapper>
       )}
     </Formik>
   );
