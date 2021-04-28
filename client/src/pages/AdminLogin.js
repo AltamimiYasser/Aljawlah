@@ -6,7 +6,7 @@ import axios from 'axios';
 import notify from '../utils/notifications';
 import AdminContext from '../context/adminContext';
 
-const AdminLogin = ({ history }) => {
+const AdminLogin = (props) => {
   // get admin context to redirect if admin is logged in
   const { loggedIn, getLoggedIn } = useContext(AdminContext);
 
@@ -14,7 +14,8 @@ const AdminLogin = ({ history }) => {
   const redirect = () => {
     getLoggedIn();
     if (loggedIn) {
-      history.push('/admin-dashboard');
+      const prevLocation = props.location.state.prevLocation;
+      props.history.push(prevLocation);
     }
   };
 

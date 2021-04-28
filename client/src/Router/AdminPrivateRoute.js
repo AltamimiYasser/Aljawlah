@@ -3,13 +3,26 @@ import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router';
 import AdminContext from '../context/adminContext';
 
-const AdminPrivateRoute = ({ children, ...rest }) => {
+const AdminPrivateRoute = ({ children, path, ...rest }) => {
   const { loggedIn } = useContext(AdminContext);
   return (
     <Route
       {...rest}
-      render={() => {
-        return loggedIn === true ? children : <Redirect to='/adminlogin' />;
+      render={(props) => {
+        // return loggedIn === true ? children : <Redirect to='/adminlogin' />;
+        return loggedIn === true ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/adminlogin',
+              state: {
+                prevLocation: path,
+                error: 'You need to login first!',
+              },
+            }}
+          />
+        );
       }}></Route>
   );
 };

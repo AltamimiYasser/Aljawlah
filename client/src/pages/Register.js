@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
+import notify from '../utils/notifications';
 
 const Register = () => {
   // formik
@@ -14,8 +15,17 @@ const Register = () => {
 
   const handelSubmit = async ({ username, password }) => {
     try {
-      await axios.post('/api/auth/users/register');
-    } catch (err) {}
+      const res = await axios.post('/api/auth/users/register', {
+        username,
+        password,
+      });
+      if (res.status === 200) {
+        notify('Saved', 'User Register Successfully', 'success');
+      }
+    } catch (err) {
+      const error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
+    }
   };
 
   const fields = [
