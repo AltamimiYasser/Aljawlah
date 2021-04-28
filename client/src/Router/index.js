@@ -20,7 +20,7 @@ const Router = () => {
         <AdminDashBoard />
       </AdminPrivateRoute>
       <Route path='/login' component={Login} />
-      <UserPrivateRoute path='rents'>
+      <UserPrivateRoute path='/rents'>
         <RentsList />
       </UserPrivateRoute>
       <Route path='/' component={Landing} />

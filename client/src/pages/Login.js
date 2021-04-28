@@ -23,7 +23,9 @@ const Login = (props) => {
   const initialValues = { username: '', password: '' };
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('Required'),
+    username: Yup.string()
+      .required('Required')
+      .min(6, 'Must be at least 6 characters long'),
     password: Yup.string().required('Required'),
   });
 

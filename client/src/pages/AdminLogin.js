@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
 import axios from 'axios';
-
-import notify from '../utils/notifications';
 import AdminContext from '../context/adminContext';
+import notify from '../utils/notifications';
 
 const AdminLogin = (props) => {
   // get admin context to redirect after log in
@@ -35,6 +34,7 @@ const AdminLogin = (props) => {
       });
       redirect();
     } catch (err) {
+      console.log(err);
       const error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
