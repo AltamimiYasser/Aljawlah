@@ -1,3 +1,4 @@
+//app.use('/api/auth/admin', require('./routes/auth/admin'));
 const router = require('express').Router();
 
 const {

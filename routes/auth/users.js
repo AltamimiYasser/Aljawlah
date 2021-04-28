@@ -1,3 +1,4 @@
+//app.use('/api/auth/users', require('./routes/auth/users'));
 const router = require('express').Router();
 const adminAuth = require('../../middleware/adminAuth');
 

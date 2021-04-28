@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
@@ -11,8 +12,10 @@ const Register = () => {
     password: Yup.string().required('Required'),
   });
 
-  const handelSubmit = ({ username, password }) => {
-    console.log({ username, password });
+  const handelSubmit = async ({ username, password }) => {
+    try {
+      await axios.post('/api/auth/users/register');
+    } catch (err) {}
   };
 
   const fields = [
