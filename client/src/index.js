@@ -4,14 +4,17 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AdminContextProvider } from './context/adminContext';
 import { UserContextProvider } from './context/userContext';
+import { ThemeContextProvider } from './context/themeContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <AdminContextProvider>
       <UserContextProvider>
-        <Router>
-          <App />
-        </Router>
+        <ThemeContextProvider>
+          <Router>
+            <App />
+          </Router>
+        </ThemeContextProvider>
       </UserContextProvider>
     </AdminContextProvider>
   </React.StrictMode>,

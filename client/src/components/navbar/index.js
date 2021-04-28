@@ -1,15 +1,11 @@
 import axios from 'axios';
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import AdminContext from '../../context/adminContext';
 import UserContext from '../../context/userContext';
-
-const Nav = styled.nav`
-  display: flex;
-  gap: 10px;
-  text-decoration: none;
-`;
+import ThemeContext from '../../context/themeContext';
+import { MdDirectionsBike } from 'react-icons/md';
+import { Nav } from './Elemnts';
 
 const Navbar = () => {
   const history = useHistory();
@@ -21,6 +17,9 @@ const Navbar = () => {
   const { loggedIn: loggedInUser, getLoggedIn: getLoggedInUser } = useContext(
     UserContext
   );
+
+  const { theme } = useContext(ThemeContext);
+  console.log('theme', theme);
 
   const redirectAdmin = () => {
     getLoggedInAdmin();
@@ -55,30 +54,46 @@ const Navbar = () => {
   };
 
   return (
-    <Nav>
+    <Nav theme={theme}>
+      <MdDirectionsBike className='bike' size={38} />
+      <h1>Al-Jawlah</h1>
       {!loggedInAdmin && !loggedInUser ? (
         <>
-          <Link to='/adminlogin'>Admin Login</Link>{' '}
-          <Link to='/login'>User login</Link>
+          <Link to='/adminlogin' className='link'>
+            Admin Login
+          </Link>{' '}
+          <Link to='/login' className='link'>
+            User login
+          </Link>
         </>
       ) : null}
 
       {loggedInAdmin ? (
         <>
           {' '}
-          <Link to='/admin-dashboard'>Admin Dashboard</Link>{' '}
-          <Link to='/register'>Register</Link>{' '}
+          <Link to='/admin-dashboard' className='link'>
+            Admin Dashboard
+          </Link>{' '}
+          <Link to='/register' className='link'>
+            Register
+          </Link>{' '}
         </>
       ) : null}
       {loggedInUser || loggedInAdmin ? (
-        <Link to='/rents'>Rents List</Link>
+        <Link to='/rents' className='link'>
+          Rents List
+        </Link>
       ) : null}
 
       {loggedInAdmin ? (
-        <button onClick={handelAdminLogout}>Admin Logout</button>
+        <button onClick={handelAdminLogout} className='btn'>
+          Admin Logout
+        </button>
       ) : null}
       {loggedInUser ? (
-        <button onClick={handelUserLogout}>User Logout</button>
+        <button onClick={handelUserLogout} className='btn'>
+          User Logout
+        </button>
       ) : null}
     </Nav>
   );

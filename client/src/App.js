@@ -7,15 +7,28 @@ import './App.css';
 
 import Router from './Router';
 import Navbar from './components/navbar';
+import Footer from './components/footer';
+import styled from 'styled-components';
 
 const App = () => {
   return (
     <AdminContextProvider>
       <ReactNotification />
-      <Navbar />
-      <Router />
+      <AppContainer>
+        <Navbar />
+        <Router />
+        <Footer />
+      </AppContainer>
     </AdminContextProvider>
   );
 };
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  //TODO: Fix all media query to fix width for smaller devices
+`;
 
 export default App;

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 export const FormWrapper = styled(Form)`
   display: flex;
   flex-direction: column;
-  width: 80%;
-  max-width: 550px;
   margin: 48px auto 0;
   align-items: center;
   background-color: rgba(228, 228, 228, 0.25);
@@ -13,6 +11,11 @@ export const FormWrapper = styled(Form)`
   min-height: 500px;
   box-shadow: 5px 5px 5px rgba(0.5, 0.5, 0.5, 0.1);
   gap: 10px;
+
+  @media (min-width: 768px) {
+    width: 80%;
+    max-width: 550px;
+  }
 `;
 
 export const Title = styled.h1`

@@ -18,5 +18,6 @@ export const StyledButton = styled.button`
   justify-self: end;
   &:hover {
     background-color: ${(props) => (props.color ? props.color.hover : '#fff')};
+    cursor: pointer;
   }
 `;
