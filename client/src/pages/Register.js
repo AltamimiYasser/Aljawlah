@@ -1,7 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
-import AdminContext from '../context/adminContext';
-import { Redirect } from 'react-router-dom';
 import Form from '../components/form';
 
 const Register = () => {
@@ -31,14 +29,14 @@ const Register = () => {
       placeholder: 'Password',
     },
   ];
-  console.log('register page');
   return (
     <Form
       initialValues={initialValues}
       validationSchema={validationSchema}
       handelSubmit={handelSubmit}
-      title='Register'
+      title='Register a New User'
       fields={fields}
+      autoComplete='off'
     />
   );
 };

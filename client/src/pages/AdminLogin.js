@@ -5,11 +5,18 @@ import axios from 'axios';
 
 import notify from '../utils/notifications';
 import AdminContext from '../context/adminContext';
-import { Redirect } from 'react-router';
 
 const AdminLogin = ({ history }) => {
   // get admin context to redirect if admin is logged in
   const { loggedIn, getLoggedIn } = useContext(AdminContext);
+
+  // redirect after log in
+  const redirect = () => {
+    getLoggedIn();
+    if (loggedIn) {
+      history.push('/admin-dashboard');
+    }
+  };
 
   // formik stuff
   const initialValues = { username: '', password: '' };
@@ -25,10 +32,7 @@ const AdminLogin = ({ history }) => {
         username,
         password,
       });
-      getLoggedIn();
-      if (loggedIn) {
-        history.push('/admin-dashboard');
-      }
+      redirect();
     } catch (err) {
       const error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
