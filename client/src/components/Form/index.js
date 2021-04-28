@@ -1,7 +1,9 @@
 import React from 'react';
 import { Formik } from 'formik';
 import FormControl from './FormControl';
-import { FormWrapper, Title, FormFields, Button } from './Elements';
+import { FormWrapper, Title, FormFields } from './Elements';
+import Button from '../button';
+import { colors } from '../../utils/styles';
 
 const Form = (props) => {
   // form
@@ -10,7 +12,6 @@ const Form = (props) => {
   const handelSubmit = props.handelSubmit;
   const title = props.title;
   const fields = props.fields;
-  console.log(props);
   return (
     <Formik
       initialValues={initialValues}
@@ -20,18 +21,20 @@ const Form = (props) => {
         <FormWrapper>
           <Title>{title}</Title>
           <FormFields>
-            {console.log('fields', props.fields)}
             {fields &&
               fields.map((field, index) => (
                 <FormControl
+                  key={index}
                   control={field.control}
                   type={field.type}
                   name={field.name}
                   placeholder={field.placeholder}
-                  autocomplete='off'
+                  autoComplete='off'
                 />
               ))}
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' color={colors.CALL_TO_ACTION}>
+              Submit
+            </Button>
           </FormFields>
         </FormWrapper>
       )}

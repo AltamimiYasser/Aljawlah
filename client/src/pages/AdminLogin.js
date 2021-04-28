@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
+import axios from 'axios';
 
-const AdminLogin = () => {
+import notify from '../utils/notifications';
+import AdminContext from '../context/adminContext';
+import { Redirect } from 'react-router';
+
+const AdminLogin = ({ history }) => {
+  // get admin context to redirect if admin is logged in
+  const { loggedIn, getLoggedIn } = useContext(AdminContext);
+
+  // formik stuff
   const initialValues = { username: '', password: '' };
+
   const validationSchema = Yup.object({
     username: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
   });
-  const handelSubmit = (values) => {
-    console.log(values);
+
+  const handelSubmit = async ({ username, password }) => {
+    try {
+      await axios.post('/api/auth/admin/login', {
+        username,
+        password,
+      });
+      getLoggedIn();
+      if (loggedIn) {
+        history.push('/admin-dashboard');
+      }
+    } catch (err) {
+      const error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
+    }
   };
 
   const fields = [

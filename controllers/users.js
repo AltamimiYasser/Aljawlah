@@ -6,14 +6,14 @@ const User = require('../models/User');
 // register user
 exports.register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // create user
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ username, password: hashedPassword });
 
     // save user
     const savedUser = await newUser.save();
@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
 exports.singIn = async (req, res) => {
   try {
     // get user
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ username: req.body.username });
 
     // create token
     const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
