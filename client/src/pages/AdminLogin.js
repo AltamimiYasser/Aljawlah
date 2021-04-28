@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
 import axios from 'axios';
 import AdminContext from '../context/adminContext';
 import notify from '../utils/notifications';
+import { Redirect } from 'react-router';
 
 const AdminLogin = (props) => {
   // get admin context to redirect after log in
@@ -13,8 +14,9 @@ const AdminLogin = (props) => {
   const redirect = () => {
     getLoggedIn();
     if (loggedIn) {
-      const prevLocation = props.location.state.prevLocation;
-      props.history.push(prevLocation || '/admin-dashboard');
+      props.history.push(
+        props.location.state.prevLocation || '/admin-dashboard'
+      );
     }
   };
 
@@ -26,18 +28,19 @@ const AdminLogin = (props) => {
     password: Yup.string().required('Required'),
   });
 
-  const handelSubmit = async ({ username, password }) => {
-    try {
-      await axios.post('/api/auth/admin/login', {
-        username,
-        password,
+  const handelSubmit = ({ username, password }) => {
+    axios
+      .post('/api/auth/admin/login', { username, password })
+      .then((res) => {
+        redirect();
+      })
+      .catch((err) => {
+        notify(
+          'Error',
+          err.response.data.errors[0].msg || 'Unknown Error',
+          'danger'
+        );
       });
-      redirect();
-    } catch (err) {
-      console.log(err);
-      const error = err.response.data.errors[0].msg;
-      notify('Error', error, 'danger');
-    }
   };
 
   const fields = [
@@ -55,13 +58,19 @@ const AdminLogin = (props) => {
     },
   ];
   return (
-    <Form
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      handelSubmit={handelSubmit}
-      title='Admin Login'
-      fields={fields}
-    />
+    <>
+      {loggedIn ? (
+        <Redirect to='/admin-dashboard' />
+      ) : (
+        <Form
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          handelSubmit={handelSubmit}
+          title='Admin Login'
+          fields={fields}
+        />
+      )}
+    </>
   );
 };
 

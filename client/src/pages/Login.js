@@ -4,6 +4,7 @@ import Form from '../components/form';
 import axios from 'axios';
 import UserContext from '../context/userContext';
 import notify from '../utils/notifications';
+import { Redirect } from 'react-router';
 
 const Login = (props) => {
   // get admin context to redirect after log in
@@ -13,9 +14,7 @@ const Login = (props) => {
   const redirect = () => {
     getLoggedIn();
     if (loggedIn) {
-      const prevLocation = props.location.state.prevLocation;
-      console.log(prevLocation);
-      props.history.push(prevLocation || '/rents');
+      props.history.push(props.location.state.prevLocation || '/rents');
     }
   };
 
@@ -23,23 +22,24 @@ const Login = (props) => {
   const initialValues = { username: '', password: '' };
 
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .required('Required')
-      .min(6, 'Must be at least 6 characters long'),
+    username: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
   });
 
-  const handelSubmit = async ({ username, password }) => {
-    try {
-      await axios.post('/api/auth/users/login', {
-        username,
-        password,
+  const handelSubmit = ({ username, password }) => {
+    console.log(`username: ${username}, password: ${password}`);
+    axios
+      .post('/api/auth/users/login', { username, password })
+      .then((response) => {
+        redirect();
+      })
+      .catch((err) => {
+        notify(
+          'Error',
+          err.response.data.errors[0].msg || 'Unknown error',
+          'danger'
+        );
       });
-      redirect();
-    } catch (err) {
-      const error = err.response.data.errors[0].msg;
-      notify('Error', error, 'danger');
-    }
   };
 
   const fields = [
@@ -57,13 +57,19 @@ const Login = (props) => {
     },
   ];
   return (
-    <Form
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      handelSubmit={handelSubmit}
-      title='User Login'
-      fields={fields}
-    />
+    <>
+      {loggedIn ? (
+        <Redirect to='/rents' />
+      ) : (
+        <Form
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          handelSubmit={handelSubmit}
+          title='User Login'
+          fields={fields}
+        />
+      )}
+    </>
   );
 };
 

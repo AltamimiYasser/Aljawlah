@@ -25,21 +25,19 @@ const Navbar = () => {
 
   const redirectAdmin = () => {
     getLoggedInAdmin();
-    if (loggedInAdmin) {
+    if (!loggedInAdmin) {
       history.push('/admin-dashboard');
     }
   };
 
   const redirectUser = () => {
     getLoggedInUser();
-    if (loggedInUser) {
+    if (!loggedInUser) {
       history.push('/login');
     }
   };
 
   const handelAdminLogout = async (e) => {
-    e.preventDefault();
-
     try {
       await axios.get('/api/auth/admin/logout');
       redirectAdmin();
@@ -49,8 +47,6 @@ const Navbar = () => {
   };
 
   const handelUserLogout = async (e) => {
-    e.preventDefault();
-
     try {
       await axios.get('/api/auth/users/logout');
       redirectUser();
