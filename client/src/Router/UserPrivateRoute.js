@@ -2,14 +2,16 @@
 import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router';
 import UserContext from '../context/userContext';
+import AdminContext from '../context/adminContext';
 
 const AdminPrivateRoute = ({ children, path, ...rest }) => {
-  const { loggedIn } = useContext(UserContext);
+  const { loggedIn: loggedInUser } = useContext(UserContext);
+  const { loggedIn: loggedInAdmin } = useContext(AdminContext);
   return (
     <Route
       {...rest}
       render={(props) => {
-        return loggedIn === true ? (
+        return loggedInUser === true || loggedInAdmin === true ? (
           children
         ) : (
           <Redirect
