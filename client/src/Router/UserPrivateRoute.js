@@ -1,10 +1,10 @@
-// if not logged in redirect to admin login
+// if not logged in redirect to user login
 import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router';
-import AdminContext from '../context/adminContext';
+import UserContext from '../context/userContext';
 
 const AdminPrivateRoute = ({ children, path, ...rest }) => {
-  const { loggedIn } = useContext(AdminContext);
+  const { loggedIn } = useContext(UserContext);
   return (
     <Route
       {...rest}
@@ -14,7 +14,7 @@ const AdminPrivateRoute = ({ children, path, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: '/adminlogin',
+              pathname: '/login',
               state: {
                 prevLocation: path,
               },
