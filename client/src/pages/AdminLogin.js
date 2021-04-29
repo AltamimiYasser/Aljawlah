@@ -35,11 +35,13 @@ const AdminLogin = (props) => {
         redirect();
       })
       .catch((err) => {
-        notify(
-          'Error',
-          err.response.data.errors[0].msg || 'Unknown Error',
-          'danger'
-        );
+        let msg;
+        if (err.response.data.errors[0].msg) {
+          msg = err.response.data.errors[0].msg;
+        } else {
+          msg = 'Unknown Error';
+        }
+        notify('Error', msg, 'danger');
       });
   };
 

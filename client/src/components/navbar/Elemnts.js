@@ -2,9 +2,16 @@ import styled from 'styled-components';
 import { colors } from '../../utils/styles';
 
 export const Nav = styled.nav`
-  width: 100%;
+  @media (max-width: 700px) {
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  width: 100vw;
   display: flex;
-  gap: 10px;
   text-decoration: none;
   height: 80px;
   background: ${(props) =>
@@ -12,10 +19,18 @@ export const Nav = styled.nav`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+
   .link {
     color: ${(props) => (props.theme === 'light' ? '#fff' : colors.PRIMARY.bg)};
     text-decoration: none;
-    margin-right: 16px;
+    margin-right: 32px;
+    font-weight: 600;
+    text-align: center;
+
+    @media (max-width: 700px) {
+      margin: 16px auto;
+    }
+
     &:hover {
       color: ${(props) =>
         props.theme === 'light' ? '#d4c6c6' : colors.PRIMARY.hover};
@@ -29,18 +44,36 @@ export const Nav = styled.nav`
     font-size: 16px;
     margin-right: 16px;
     cursor: pointer;
+    text-align: center;
+
+    @media (max-width: 700px) {
+      font-size: 12px !important;
+      margin: 16px auto;
+    }
   }
 
   .bike {
     margin-right: auto;
-    margin-left: 16px;
+    margin-left: 32px;
     color: ${(props) => (props.theme === 'light' ? '#fff' : colors.PRIMARY.bg)};
     font-size: 16px;
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+
+  .title {
+    text-decoration: none;
+    margin-right: auto;
+    margin-left: 50px;
+    text-align: center;
+    @media (max-width: 700px) {
+      font-size: 16px !important;
+      margin: auto;
+    }
   }
 
   h1 {
-    margin-right: auto;
-    margin-left: 50px;
     color: ${(props) => (props.theme === 'light' ? '#fff' : colors.PRIMARY.bg)};
     text-align: center;
   }

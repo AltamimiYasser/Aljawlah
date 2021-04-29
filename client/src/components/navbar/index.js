@@ -53,48 +53,50 @@ const Navbar = () => {
   };
 
   return (
-    <Nav theme={theme}>
-      <DirectionsBike className='bike' size={38} />
-      <h1>Al-Jawlah</h1>
-      {!loggedInAdmin && !loggedInUser ? (
-        <>
-          <Link to='/adminlogin' className='link'>
-            Admin Login
-          </Link>{' '}
-          <Link to='/login' className='link'>
-            User login
-          </Link>
-        </>
-      ) : null}
-
-      {loggedInAdmin ? (
-        <>
-          {' '}
-          <Link to='/admin-dashboard' className='link'>
-            Admin Dashboard
-          </Link>{' '}
-          <Link to='/register' className='link'>
-            Register
-          </Link>{' '}
-        </>
-      ) : null}
-      {loggedInUser || loggedInAdmin ? (
-        <Link to='/rents' className='link'>
-          Rents List
+    <div className='navWrapper'>
+      <Nav theme={theme}>
+        <DirectionsBike className='bike' size={38} />
+        <Link to='/' className='title'>
+          <h1>Al-Jawlah</h1>
         </Link>
-      ) : null}
-
-      {loggedInAdmin ? (
-        <button onClick={handelAdminLogout} className='btn'>
-          Admin Logout
-        </button>
-      ) : null}
-      {loggedInUser ? (
-        <button onClick={handelUserLogout} className='btn'>
-          User Logout
-        </button>
-      ) : null}
-    </Nav>
+        {!loggedInAdmin && !loggedInUser ? (
+          <>
+            <Link to='/adminlogin' className='link'>
+              Admin Login
+            </Link>{' '}
+            <Link to='/login' className='link'>
+              User login
+            </Link>
+          </>
+        ) : null}
+        {loggedInAdmin ? (
+          <>
+            {' '}
+            <Link to='/admin-dashboard' className='link'>
+              Admin Dashboard
+            </Link>{' '}
+            <Link to='/register' className='link'>
+              Register
+            </Link>{' '}
+          </>
+        ) : null}
+        {loggedInUser || loggedInAdmin ? (
+          <Link to='/rents' className='link'>
+            Rents List
+          </Link>
+        ) : null}
+        {loggedInAdmin ? (
+          <button onClick={handelAdminLogout} className='btn'>
+            Admin Logout
+          </button>
+        ) : null}
+        {loggedInUser ? (
+          <button onClick={handelUserLogout} className='btn'>
+            User Logout
+          </button>
+        ) : null}
+      </Nav>
+    </div>
   );
 };
 
