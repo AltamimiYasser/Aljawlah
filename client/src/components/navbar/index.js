@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import AdminContext from '../../context/adminContext';
 import UserContext from '../../context/userContext';
 import ThemeContext from '../../context/themeContext';
-import { MdDirectionsBike } from 'react-icons/md';
+import { DirectionsBike } from '@styled-icons/material/DirectionsBike';
 import { Nav } from './Elemnts';
 
 const Navbar = () => {
@@ -19,7 +19,6 @@ const Navbar = () => {
   );
 
   const { theme } = useContext(ThemeContext);
-  console.log('theme', theme);
 
   const redirectAdmin = () => {
     getLoggedInAdmin();
@@ -55,7 +54,7 @@ const Navbar = () => {
 
   return (
     <Nav theme={theme}>
-      <MdDirectionsBike className='bike' size={38} />
+      <DirectionsBike className='bike' size={38} />
       <h1>Al-Jawlah</h1>
       {!loggedInAdmin && !loggedInUser ? (
         <>
