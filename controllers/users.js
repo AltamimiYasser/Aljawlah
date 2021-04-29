@@ -36,7 +36,7 @@ exports.singIn = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
 
     // return it
-    res.cookie('token', token, { httpOnly: true }).send();
+    res.cookie('token', token, { httpOnly: true, sameSite: 'strict' }).send();
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: [{ msg: 'Server error' }] });
@@ -45,8 +45,16 @@ exports.singIn = async (req, res) => {
 
 // log user out
 exports.logout = (req, res) => {
-  // send empty cookie with an already expired date
-  res.cookie('token', '', { expires: new Date(0), httpOnly: true }).send();
+  // create expire time one second from now
+  let expiry = new Date();
+  expiry.setSeconds(expiry.getSeconds() + 1);
+  res
+    .cookie('token', '', {
+      expires: expiry,
+      httpOnly: true,
+      sameSite: 'strict',
+    })
+    .send();
 };
 
 // is loggedin return true if valid token and false other wise

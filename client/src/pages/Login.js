@@ -27,7 +27,6 @@ const Login = (props) => {
   });
 
   const handelSubmit = ({ username, password }) => {
-    console.log(`username: ${username}, password: ${password}`);
     axios
       .post('/api/auth/users/login', { username, password })
       .then((response) => {

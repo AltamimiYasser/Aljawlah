@@ -6,15 +6,21 @@ exports.logAdmin = (req, res) => {
 
   // create token and send it as a cookie using the admin token secret
   const token = jwt.sign({ user: username }, process.env.ADMIN_TOKEN_SECRET);
-  res.cookie('adminToken', token, { httpOnly: true }).send();
+  res
+    .cookie('adminToken', token, { httpOnly: true, sameSite: 'strict' })
+    .send();
 };
 
 // logout admin
 exports.logoutAdmin = (req, res) => {
+  // create expire time one second from now
+  let expiry = new Date();
+  expiry.setSeconds(expiry.getSeconds() + 1);
   res
     .cookie('adminToken', '', {
       httpOnly: true,
-      expires: new Date(0),
+      expires: expiry,
+      sameSite: 'strict',
     })
     .send();
 };
