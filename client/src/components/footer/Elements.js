@@ -8,13 +8,12 @@ export const StyledFooter = styled.footer`
     color: rgba(150, 150, 150, 1);
     margin-right: 16px;
   }
-  height: 250px;
+  height: 150px;
   background: rgba(34, 34, 34, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 16px 0;
 
   .icons,
   .links {
@@ -29,6 +28,7 @@ export const StyledFooter = styled.footer`
   .rights {
     color: rgba(150, 150, 150, 1);
     text-decoration: none;
+    margin-bottom: 16px;
 
     .rights-icon {
       margin-right: 8px;

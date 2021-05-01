@@ -33,6 +33,8 @@ const Router = () => {
 
 const Page = styled.div`
   flex: 1;
+  margin: 0;
+  padding: 0;
 `;
 
 export default Router;
