@@ -3,10 +3,22 @@ import ThemeContext from '../context/themeContext';
 import axios from 'axios';
 import MaterielTable from 'material-table';
 import { Link, useHistory } from 'react-router-dom';
+import { useConfirm } from 'material-ui-confirm';
+import { makeStyles } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
 
 const BikesList = () => {
+  //
+  const confirm = useConfirm();
   const history = useHistory();
   const [bikes, setBikes] = useState([]);
+  const classes = useStyles();
 
   const { changeTheme } = useContext(ThemeContext);
   useEffect(() => {
@@ -44,6 +56,20 @@ const BikesList = () => {
 
   const deleteBike = (e, data) => {
     // delete the bike here
+    confirm({
+      description: 'Are you sure you want to delete',
+      confirmationText: 'Delete',
+      confirmationButtonProps: {
+        className: classes.button,
+        variant: 'contained',
+        color: 'secondary',
+        startIcon: <DeleteIcon />,
+      },
+    }).then(() => {
+      // call delete bike by id
+      console.log(data._id);
+      console.log('Agreed');
+    });
   };
 
   return (

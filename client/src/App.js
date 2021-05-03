@@ -2,6 +2,7 @@ import React from 'react';
 import { AdminContextProvider } from './context/adminContext';
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import { ConfirmProvider } from 'material-ui-confirm';
 
 import './App.css';
 
@@ -14,11 +15,13 @@ const App = () => {
   return (
     <AdminContextProvider>
       <ReactNotification />
-      <AppContainer>
-        <Navbar />
-        <Router />
-        <Footer />
-      </AppContainer>
+      <ConfirmProvider>
+        <AppContainer>
+          <Navbar />
+          <Router />
+          <Footer />
+        </AppContainer>
+      </ConfirmProvider>
     </AdminContextProvider>
   );
 };
