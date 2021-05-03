@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import ThemeContext from '../context/themeContext';
 
 const RentsList = () => {
+  const { changeTheme } = useContext(ThemeContext);
+  useEffect(() => {
+    if (changeTheme) changeTheme('light');
+  }, [changeTheme]);
   return (
     <div>
       <ul>

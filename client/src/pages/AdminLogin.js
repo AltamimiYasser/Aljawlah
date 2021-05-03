@@ -14,9 +14,7 @@ const AdminLogin = (props) => {
   const redirect = () => {
     getLoggedIn();
     if (loggedIn) {
-      props.history.push(
-        props.location.state.prevLocation || '/admin-dashboard'
-      );
+      props.history.push(props.location.state.prevLocation || '/bikes');
     }
   };
 

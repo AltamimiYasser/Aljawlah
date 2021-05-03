@@ -1,7 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import background from '../assets/bg.jpg';
+import AdminContext from '../context/adminContext';
+import UserContext from '../context/userContext';
 import ThemeContext from '../context/themeContext';
+import { Redirect } from 'react-router';
 
 const Container = styled.div`
   .bg {
@@ -47,11 +50,19 @@ const Landing = () => {
     if (changeTheme) changeTheme('dark');
   }, [changeTheme]);
 
+  const { loggedIn: loggedInAdmin } = useContext(AdminContext);
+
+  const { loggedIn: loggedInUser } = useContext(UserContext);
+
   return (
-    <Container>
-      <div className='bg' />
-      <h1>Al-jawlah</h1>
-    </Container>
+    <>
+      {loggedInAdmin ? <Redirect to='/bikes' /> : null}
+      {loggedInUser ? <Redirect to='/rents' /> : null}
+      <Container>
+        <div className='bg' />
+        <h1>Al-jawlah</h1>
+      </Container>
+    </>
   );
 };
 

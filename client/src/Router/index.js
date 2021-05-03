@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import AdminDashBoard from '../pages/AdminDashBoard';
 import AdminLogin from '../pages/AdminLogin';
 import Landing from '../pages/Landing';
 import Register from '../pages/Register';
@@ -9,6 +8,9 @@ import RentsList from '../pages/RentsList';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import UserPrivateRoute from './UserPrivateRoute';
 import styled from 'styled-components';
+import BikesList from '../pages/BikesList';
+import AddBikeForm from '../pages/AddBikeForm';
+import EditBikeForm from '../pages/EditBikeForm';
 
 const Router = () => {
   return (
@@ -18,8 +20,14 @@ const Router = () => {
         <AdminPrivateRoute path='/register'>
           <Register />
         </AdminPrivateRoute>
-        <AdminPrivateRoute path='/admin-dashboard'>
-          <AdminDashBoard />
+        <AdminPrivateRoute exact path='/bikes'>
+          <BikesList />
+        </AdminPrivateRoute>
+        <AdminPrivateRoute exact path='/bikes/new'>
+          <AddBikeForm />
+        </AdminPrivateRoute>
+        <AdminPrivateRoute exact path='/bikes/edit/:id'>
+          <EditBikeForm />
         </AdminPrivateRoute>
         <Route path='/login' component={Login} />
         <UserPrivateRoute path='/rents'>

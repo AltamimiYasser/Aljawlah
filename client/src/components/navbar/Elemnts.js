@@ -33,18 +33,29 @@ export const Nav = styled.nav`
 
     &:hover {
       color: ${(props) =>
-        props.theme === 'light' ? '#d4c6c6' : colors.PRIMARY.hover};
+        props.theme === 'light'
+          ? 'rgba(212, 198, 198, 0.43)'
+          : colors.PRIMARY.hover};
     }
   }
 
   .btn {
-    color: white;
+    color: ${(props) => (props.theme === 'light' ? '#fff' : colors.PRIMARY.bg)};
     background: none;
+    padding: 16px 8px;
     border: none;
     font-size: 16px;
+    font-weight: 600;
     margin-right: 16px;
     cursor: pointer;
     text-align: center;
+
+    &:hover {
+      color: ${(props) =>
+        props.theme === 'light'
+          ? 'rgba(212, 198, 198, 0.43)'
+          : colors.PRIMARY.hover};
+    }
 
     @media (max-width: 700px) {
       font-size: 12px !important;
