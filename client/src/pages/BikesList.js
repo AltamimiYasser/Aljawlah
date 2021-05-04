@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import notify from '../utils/notifications';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -50,10 +51,12 @@ const BikesList = () => {
     { title: 'Working Hours', field: 'workingHours' },
   ];
 
+  // redirect to edit bike page
   const editBike = (e, data) => {
     history.push(`/bikes/edit/${data._id}`);
   };
 
+  // confirm then delete a bike
   const deleteBike = (e, data) => {
     // delete the bike here
     confirm({
@@ -65,10 +68,13 @@ const BikesList = () => {
         color: 'secondary',
         startIcon: <DeleteIcon />,
       },
-    }).then(() => {
+    }).then(async () => {
+      try {
+        await axios.delete(`/api/bikes/${data._id}`);
+      } catch (err) {
+        notify('Error', err.message, 'danger');
+      }
       // call delete bike by id
-      console.log(data._id);
-      console.log('Agreed');
     });
   };
 

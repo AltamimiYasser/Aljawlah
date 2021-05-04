@@ -41,7 +41,8 @@ const Router = () => {
 
 const Page = styled.div`
   flex: 1;
-  margin: 0;
+  width: 90%;
+  margin: 40px auto;
   padding: 0;
 `;
 
