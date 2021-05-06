@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const styles = {
+  largeIcon: {
+    width: 40,
+    height: 40,
+    fill: '#38aa38',
+  },
+};
+
 const BikesList = () => {
   //
   const confirm = useConfirm();
@@ -140,28 +148,36 @@ const BikesList = () => {
     });
   };
 
+  const redirectToNew = () => {
+    history.push('/bikes/new');
+  };
+
   return (
     <>
-      <Link to={'/bikes/new'}>
-        <h5>Add Bike</h5>
-      </Link>
       <MaterielTable
         columns={columns}
         data={bikes}
         actions={[
           {
-            icon: Edit,
+            icon: () => <Edit />,
             tooltip: 'Edit',
             onClick: editBike,
           },
           {
-            icon: DeleteIcon,
+            icon: () => <DeleteIcon color='secondary' />,
             tooltip: 'Delete',
             onClick: deleteBike,
+          },
+          {
+            icon: () => <AddBox style={styles.largeIcon} />,
+            tooltip: 'Add',
+            position: 'toolbar',
+            onClick: redirectToNew,
           },
         ]}
         title='Bikes List'
         options={{
+          pageSize: 10,
           actionsColumnIndex: -1,
           headerStyle: {
             backgroundColor: colors.PRIMARY.bg,
