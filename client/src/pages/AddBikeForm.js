@@ -3,6 +3,7 @@ import React from 'react';
 import BikesForm from '../components/BikesForm';
 import notify from '../utils/notifications';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const AddBikeForm = () => {
   const history = useHistory();
@@ -20,17 +21,24 @@ const AddBikeForm = () => {
     bikeClass: '', // specification -Options DONE
     description: '', // text area DONE
   };
-
   const handelSubmit = async (values) => {
     try {
-      const res = await axios.post('/api/bikes', values);
+      let formattedDateOfPurchase = moment(values.dateOfPurchase).format(
+        'YYYY-MM-DD'
+      );
+      if (formattedDateOfPurchase === 'Invalid date')
+        formattedDateOfPurchase = '';
+      const res = await axios.post('/api/bikes', {
+        ...values,
+        dateOfPurchase: formattedDateOfPurchase,
+      });
       if (res.status === 200) {
         notify('Saved', 'Bike Added successfully', 'success');
         // TODO: redirect
         history.push('/bikes');
       }
     } catch (err) {
-      const error = err.response.data.errors[0].msg;
+      const error = err.response.data.errors[0].msg || 'Unknown Error';
       notify('Error', error, 'danger');
     }
   };

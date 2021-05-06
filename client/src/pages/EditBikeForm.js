@@ -59,7 +59,7 @@ const EditBikeForm = () => {
           color,
           wheels,
           billNumber,
-          dateOfPurchase: moment(dateOfPurchase).format('YYYY-MM-DD'),
+          dateOfPurchase: moment(dateOfPurchase).format('YYYY-MM-DD') || '',
           model,
           rentPrice,
           size,

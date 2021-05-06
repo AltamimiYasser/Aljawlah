@@ -28,6 +28,7 @@ exports.getBike = async (req, res) => {
 
 // create new bike
 exports.createBike = async (req, res) => {
+  console.log(req.body);
   try {
     const bike = req.body;
     const newBike = new Bike(bike);
