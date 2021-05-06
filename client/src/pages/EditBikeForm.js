@@ -53,13 +53,18 @@ const EditBikeForm = () => {
         bikeClass,
         description,
       } = res.data;
+
+      let formattedDateOfPurchase = moment(dateOfPurchase).format('YYYY-MM-DD');
+      if (formattedDateOfPurchase === 'Invalid date')
+        formattedDateOfPurchase = '';
+
       if (isMounted)
         setInitialValues({
           barcode,
           color,
           wheels,
           billNumber,
-          dateOfPurchase: moment(dateOfPurchase).format('YYYY-MM-DD') || '',
+          dateOfPurchase: formattedDateOfPurchase,
           model,
           rentPrice,
           size,
