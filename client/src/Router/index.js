@@ -9,6 +9,7 @@ import AdminPrivateRoute from './AdminPrivateRoute';
 import UserPrivateRoute from './UserPrivateRoute';
 import styled from 'styled-components';
 import BikesList from '../pages/BikesList';
+import UsersList from '../pages/UsersList';
 import AddBikeForm from '../pages/AddBikeForm';
 import EditBikeForm from '../pages/EditBikeForm';
 
@@ -22,6 +23,10 @@ const Router = () => {
         </AdminPrivateRoute>
         <AdminPrivateRoute exact path='/bikes'>
           <BikesList />
+        </AdminPrivateRoute>
+
+        <AdminPrivateRoute exact path='/users'>
+          <UsersList />
         </AdminPrivateRoute>
         <AdminPrivateRoute exact path='/bikes/new'>
           <AddBikeForm />

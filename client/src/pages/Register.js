@@ -3,8 +3,10 @@ import React from 'react';
 import * as Yup from 'yup';
 import Form from '../components/form';
 import notify from '../utils/notifications';
+import { useHistory } from 'react-router-dom';
 
 const Register = () => {
+  const history = useHistory();
   // formik
   const initialValues = { username: '', password: '' };
 
@@ -21,6 +23,9 @@ const Register = () => {
       });
       if (res.status === 200) {
         notify('Saved', 'User Register Successfully', 'success');
+        //TODO redirect
+
+        history.push('/users');
       }
     } catch (err) {
       const error = err.response.data.errors[0].msg;

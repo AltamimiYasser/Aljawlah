@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import ThemeContext from '../context/themeContext';
 import axios from 'axios';
 import MaterielTable from 'material-table';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -14,11 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BikesList = () => {
+const Users = () => {
   //
   const confirm = useConfirm();
-  const history = useHistory();
-  const [bikes, setBikes] = useState([]);
+  const [users, setUsers] = useState([]);
   const classes = useStyles();
   const { changeTheme } = useContext(ThemeContext);
 
@@ -28,40 +27,24 @@ const BikesList = () => {
 
   useEffect(() => {
     axios
-      .get('/api/bikes')
+      .get('/api/auth/users')
       .then((res) => {
-        setBikes(res.data);
+        setUsers(res.data);
       })
       .catch((err) => {
-        // TODO: add notification
-        console.error(err);
+        // TODO: add notifications
+        console.log(err);
       });
   }, []);
 
   const columns = [
-    { title: 'Class', field: 'bikeClass' },
-    { title: 'Color', field: 'color' },
-    { title: 'Barcode', field: 'barcode' },
-    { title: 'Bill Number', field: 'billNumber' },
-    { title: 'Date of Purchase', field: 'dateOfPurchase' },
-    { title: 'Model', field: 'model' },
-    { title: 'Plate', field: 'plate' },
-    { title: 'Rent Price', field: 'rentPrice' },
-    { title: 'Size', field: 'size' },
-    { title: 'Wheels', field: 'wheels' },
-    { title: 'Working Hours', field: 'workingHours' },
+    { title: 'Username', field: 'username' },
+    { title: 'Created on', field: 'created' },
   ];
 
-  // redirect to edit bike page
-  const editBike = (e, data) => {
-    history.push(`/bikes/edit/${data._id}`);
-  };
-
-  // confirm then delete a bike
-  const deleteBike = (e, data) => {
-    // delete the bike here
+  const deleteUser = (e, data) => {
     confirm({
-      description: 'Are you sure you want to delete this bike?',
+      description: 'Are you sure you want to delete this user?',
       confirmationText: 'Delete',
       confirmationButtonProps: {
         className: classes.button,
@@ -71,43 +54,38 @@ const BikesList = () => {
       },
     }).then(async () => {
       try {
-        await axios.delete(`/api/bikes/${data._id}`);
+        await axios.delete(`/api/auth/users/${data._id}`);
 
         axios
-          .get('/api/bikes')
+          .get('/api/auth/users')
           .then((res) => {
-            setBikes(res.data);
+            setUsers(res.data);
+            console.log(res.data);
           })
           .catch((err) => {
-            // TODO: add notification
-            console.error(err);
+            // TODO: add notifications
+            console.log(err);
           });
       } catch (err) {
         // TODO: makes suer error message works
         notify('Error', err.message, 'danger');
       }
-      // call delete bike by id
     });
   };
 
   return (
     <>
-      <Link to={'/bikes/new'}>
-        <h5>Add Bike</h5>
+      <Link to={'/register'}>
+        <h5>Add User</h5>
       </Link>
       <MaterielTable
         columns={columns}
-        data={bikes}
+        data={users}
         actions={[
-          {
-            icon: 'edit',
-            tooltip: 'Edit',
-            onClick: editBike,
-          },
           {
             icon: 'delete',
             tooltip: 'Delete',
-            onClick: deleteBike,
+            onClick: deleteUser,
           },
         ]}
         title='Bikes List'
@@ -116,4 +94,4 @@ const BikesList = () => {
   );
 };
 
-export default BikesList;
+export default Users;

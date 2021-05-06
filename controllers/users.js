@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const { use } = require('../routes/bikes');
 
 // register user
 exports.register = async (req, res) => {
@@ -69,5 +70,33 @@ exports.isLoggedIn = (req, res) => {
     res.json(true);
   } catch (err) {
     res.json(false);
+  }
+};
+
+// get all users
+exports.getAll = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: [{ msg: 'Server error' }] });
+  }
+};
+
+exports.removeUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id);
+    if (!user)
+      return res.status(400).json({ error: [{ msg: 'User not found' }] });
+    user.deleteOne();
+    res.json({ msg: 'User removed' });
+  } catch (err) {
+    console.error(err);
+    if (err.kind === 'ObjectId')
+      return res.status(400).json({ error: [{ msg: 'User not found' }] });
+
+    res.status(500).json({ error: [{ msg: 'Server error' }] });
   }
 };

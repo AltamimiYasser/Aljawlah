@@ -7,6 +7,8 @@ const {
   singIn,
   logout,
   isLoggedIn,
+  getAll,
+  removeUser,
 } = require('../../controllers/users');
 const {
   validateRegister,
@@ -24,5 +26,11 @@ router.get('/logout', logout);
 
 // get user status isLoggedIn
 router.get('/loggedin', isLoggedIn);
+
+// get all users
+router.get('/', adminAuth, getAll);
+
+// delete a user
+router.delete('/:id', removeUser);
 
 module.exports = router;

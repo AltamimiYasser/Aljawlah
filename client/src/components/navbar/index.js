@@ -23,7 +23,7 @@ const Navbar = () => {
   const redirectAdmin = () => {
     getLoggedInAdmin();
     if (!loggedInAdmin) {
-      history.push('/bikes');
+      history.push('/adminlogin');
     }
   };
 
@@ -74,6 +74,9 @@ const Navbar = () => {
             {' '}
             <Link to='/bikes' className='link'>
               Bikes
+            </Link>{' '}
+            <Link to='/users' className='link'>
+              Users
             </Link>{' '}
             <Link to='/register' className='link'>
               Register
