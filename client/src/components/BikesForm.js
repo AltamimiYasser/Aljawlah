@@ -33,6 +33,7 @@ const BikesForm = ({ initialValues, onSubmit }) => {
       <Grid item xs={12}>
         <Container maxWidth='md'>
           <Formik
+            enableReinitialize
             initialValues={{ ...initialValues }}
             validationSchema={validationSchema}
             onSubmit={handelSubmit}>
@@ -46,6 +47,13 @@ const BikesForm = ({ initialValues, onSubmit }) => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField name='billNumber' label='Bill Number' />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name='rentPrice'
+                    label='Rent Price'
+                    type='number'
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <TextField name='model' label='Model' />
