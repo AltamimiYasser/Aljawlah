@@ -57,7 +57,7 @@ const Navbar = () => {
       <Nav theme={theme}>
         <DirectionsBike className='bike' size={38} />
         <Link to='/' className='title'>
-          <h1>Al-Jawlah</h1>
+          <h1>AL-JAWLAH</h1>
         </Link>
         {!loggedInAdmin && !loggedInUser ? (
           <>

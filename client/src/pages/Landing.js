@@ -60,7 +60,7 @@ const Landing = () => {
       {loggedInUser ? <Redirect to='/rents' /> : null}
       <Container>
         <div className='bg' />
-        <h1>Al-jawlah</h1>
+        <h1>AL-JAWLAH</h1>
       </Container>
     </>
   );
