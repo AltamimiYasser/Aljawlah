@@ -9,7 +9,6 @@ const DateTimePicker = ({ name, ...otherProps }) => {
     ...field,
     ...otherProps,
     type: 'date',
-    variant: 'outlined',
     fullWidth: true,
     InputLabelProps: {
       shrink: true,

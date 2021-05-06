@@ -3,6 +3,8 @@ import { AdminContextProvider } from './context/adminContext';
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import { ConfirmProvider } from 'material-ui-confirm';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 import './App.css';
 
@@ -13,16 +15,18 @@ import styled from 'styled-components';
 
 const App = () => {
   return (
-    <AdminContextProvider>
-      <ReactNotification />
-      <ConfirmProvider>
-        <AppContainer>
-          <Navbar />
-          <Router />
-          <Footer />
-        </AppContainer>
-      </ConfirmProvider>
-    </AdminContextProvider>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <AdminContextProvider>
+        <ReactNotification />
+        <ConfirmProvider>
+          <AppContainer>
+            <Navbar />
+            <Router />
+            <Footer />
+          </AppContainer>
+        </ConfirmProvider>
+      </AdminContextProvider>
+    </MuiPickersUtilsProvider>
   );
 };
 

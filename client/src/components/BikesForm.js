@@ -24,10 +24,6 @@ const BikesForm = ({ initialValues, onSubmit }) => {
     description: Yup.string(),
   });
 
-  const handelSubmit = (values) => {
-    onSubmit(values);
-  };
-
   return (
     <Grid container align='center' justify='center' alignItems='center'>
       <Grid item xs={12}>
@@ -36,7 +32,7 @@ const BikesForm = ({ initialValues, onSubmit }) => {
             enableReinitialize
             initialValues={{ ...initialValues }}
             validationSchema={validationSchema}
-            onSubmit={handelSubmit}>
+            onSubmit={onSubmit}>
             <Form>
               <Grid container spacing={2}>
                 <Grid item xs={12}>

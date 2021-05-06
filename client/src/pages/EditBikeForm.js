@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import BikesForm from '../components/BikesForm';
 import notify from '../utils/notifications';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const EditBikeForm = () => {
   const { id } = useParams();
@@ -27,7 +28,6 @@ const EditBikeForm = () => {
       const res = await axios.post('/api/bikes', values);
       if (res.status === 200) {
         notify('Saved', 'Bike Added successfully', 'success');
-        // TODO: redirect
         history.push('/bikes');
       }
     } catch (err) {
@@ -37,18 +37,47 @@ const EditBikeForm = () => {
   };
 
   useEffect(() => {
-    axios.get(`/api/bikes/${id}`).then((res) => {
-      setInitialValues(res.data);
-    });
+    let isMounted = true;
+    const loadData = async () => {
+      const res = await axios.get(`/api/bikes/${id}`);
+      const {
+        barcode,
+        color,
+        wheels,
+        billNumber,
+        dateOfPurchase,
+        model,
+        rentPrice,
+        size,
+        plate,
+        bikeClass,
+        description,
+      } = res.data;
+      if (isMounted)
+        setInitialValues({
+          barcode,
+          color,
+          wheels,
+          billNumber,
+          dateOfPurchase: moment(dateOfPurchase).format('YYYY-MM-DD'),
+          model,
+          rentPrice,
+          size,
+          plate,
+          bikeClass,
+          description,
+        });
+    };
+    loadData();
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
+  useEffect(() => async () => {}, [id]);
 
   return (
     <>
-      <BikesForm
-        enableReinitialize
-        onSubmit={handelSubmit}
-        initialValues={initialValues}
-      />
+      <BikesForm onSubmit={handelSubmit} initialValues={initialValues} />
     </>
   );
 };
