@@ -13,8 +13,10 @@ const auth = (req, res, next) => {
     let verified;
     if (token) {
       verified = jwt.verify(token, process.env.TOKEN_SECRET);
+    } else if (adminToken) {
+      verified = jwt.verify(adminToken, process.env.ADMIN_TOKEN_SECRET);
     } else {
-      verified = jwt.verify(token, process.env.ADMIN_TOKEN_SECRET);
+      return res.status(401).json({ error: [{ msg: 'Unauthorized' }] });
     }
 
     // add user to req object

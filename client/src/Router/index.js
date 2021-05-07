@@ -12,6 +12,9 @@ import BikesList from '../pages/BikesList';
 import UsersList from '../pages/UsersList';
 import AddBikeForm from '../pages/AddBikeForm';
 import EditBikeForm from '../pages/EditBikeForm';
+import AddCustomerForm from '../pages/AddCustomerForm';
+import EditCustomerForm from '../pages/EditCustomerForm';
+import CustomersList from '../pages/CustomersList';
 
 const Router = () => {
   return (
@@ -37,6 +40,15 @@ const Router = () => {
         <Route path='/login' component={Login} />
         <UserPrivateRoute path='/rents'>
           <RentsList />
+        </UserPrivateRoute>
+        <UserPrivateRoute exact path='/customers'>
+          <CustomersList />
+        </UserPrivateRoute>
+        <UserPrivateRoute path='/customers/new'>
+          <AddCustomerForm />
+        </UserPrivateRoute>
+        <UserPrivateRoute path='/customers/edit/:id'>
+          <EditCustomerForm />
         </UserPrivateRoute>
         <Route path='/' component={Landing} />
       </Switch>

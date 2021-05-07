@@ -25,9 +25,9 @@ const EditBikeForm = () => {
 
   const handelSubmit = async (values) => {
     try {
-      const res = await axios.post('/api/bikes', values);
+      const res = await axios.put(`/api/bikes/${id}`, values);
       if (res.status === 200) {
-        notify('Saved', 'Bike Added successfully', 'success');
+        notify('Saved', 'Bike updated successfully', 'success');
         history.push('/bikes');
       }
     } catch (err) {

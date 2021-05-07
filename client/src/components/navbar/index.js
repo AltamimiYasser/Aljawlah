@@ -81,9 +81,14 @@ const Navbar = () => {
           </>
         ) : null}
         {loggedInUser || loggedInAdmin ? (
-          <Link to='/rents' className='link'>
-            Rents List
-          </Link>
+          <>
+            <Link to='/rents' className='link'>
+              Rents List
+            </Link>
+            <Link to='/customers' className='link'>
+              Customers List
+            </Link>
+          </>
         ) : null}
         {loggedInAdmin ? (
           <button onClick={handelAdminLogout} className='btn'>

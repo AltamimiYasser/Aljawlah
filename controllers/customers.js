@@ -31,7 +31,7 @@ exports.createCustomer = async (req, res) => {
   console.log(req.body);
   try {
     const customer = req.body;
-    const newCustomer = new Customer(bike);
+    const newCustomer = new Customer(customer);
     const saveCustomer = await newCustomer.save();
     res.json(saveCustomer);
   } catch (err) {
@@ -62,6 +62,7 @@ exports.removeCustomer = async (req, res) => {
 // update a customer
 exports.updateCustomer = async (req, res) => {
   try {
+    console.log('inside customer update');
     const id = req.params.id;
     const customer = await Customer.findOneAndUpdate({ _id: id }, req.body);
     if (!customer)
