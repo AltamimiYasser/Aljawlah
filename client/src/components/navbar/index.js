@@ -78,9 +78,6 @@ const Navbar = () => {
             <Link to='/users' className='link'>
               Users
             </Link>{' '}
-            <Link to='/register' className='link'>
-              Register
-            </Link>{' '}
           </>
         ) : null}
         {loggedInUser || loggedInAdmin ? (

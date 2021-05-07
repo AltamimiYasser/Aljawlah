@@ -26,12 +26,16 @@ const AddBikeForm = () => {
       let formattedDateOfPurchase = moment(values.dateOfPurchase).format(
         'YYYY-MM-DD'
       );
-      if (formattedDateOfPurchase === 'Invalid date')
+      if (
+        formattedDateOfPurchase === 'Invalid date' ||
+        formattedDateOfPurchase === null
+      )
         formattedDateOfPurchase = '';
       const res = await axios.post('/api/bikes', {
         ...values,
         dateOfPurchase: formattedDateOfPurchase,
       });
+      console.log(res.data);
       if (res.status === 200) {
         notify('Saved', 'Bike Added successfully', 'success');
         // TODO: redirect

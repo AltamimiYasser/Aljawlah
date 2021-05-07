@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, forwardRef } from 'react';
 import ThemeContext from '../context/themeContext';
 import axios from 'axios';
 import MaterielTable from 'material-table';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -71,9 +71,10 @@ const BikesList = () => {
     {
       title: 'Date of Purchase',
       field: 'dateOfPurchase',
-      render: (rowData) => (
-        <div>{moment(rowData.dateOfPurchase).format('DD-MM-YYYY')}</div>
-      ),
+      render: (rowData) => {
+        if (!rowData.dateOfPurchase) return <div></div>;
+        return <div>{moment(rowData.dateOfPurchase).format('DD-MM-YYYY')}</div>;
+      },
     },
     { title: 'Model', field: 'model' },
     { title: 'Plate', field: 'plate' },

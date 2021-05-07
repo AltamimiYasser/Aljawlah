@@ -1,9 +1,9 @@
 import React, { forwardRef, useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import ThemeContext from '../context/themeContext';
 import axios from 'axios';
 import MaterielTable from 'material-table';
-import { Link } from 'react-router-dom';
 import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -32,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Users = () => {
   //
+
+  const history = useHistory();
+
+  const styles = {
+    largeIcon: {
+      width: 40,
+      height: 40,
+      fill: '#38aa38',
+    },
+  };
   const confirm = useConfirm();
   const [users, setUsers] = useState([]);
   const classes = useStyles();
@@ -122,11 +132,12 @@ const Users = () => {
     });
   };
 
+  const redirectToNew = () => {
+    history.push('/register');
+  };
+
   return (
     <>
-      <Link to={'/register'}>
-        <h5>Add User</h5>
-      </Link>
       <MaterielTable
         columns={columns}
         data={users}
@@ -135,6 +146,12 @@ const Users = () => {
             icon: DeleteIcon,
             tooltip: 'Delete',
             onClick: deleteUser,
+          },
+          {
+            icon: () => <AddBox style={styles.largeIcon} />,
+            tooltip: 'Add',
+            position: 'toolbar',
+            onClick: redirectToNew,
           },
         ]}
         title='Users List'
