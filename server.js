@@ -26,7 +26,7 @@ mongoose.connect(
 app.use('/api/auth/admin', require('./routes/auth/admin'));
 app.use('/api/auth/users', require('./routes/auth/users'));
 app.use('/api/bikes', require('./routes/bikes'));
-app.use('api/customers', require('./routes/customers'));
+app.use('/api/customers', require('./routes/customers'));
 
 // production setup
 if (process.env.NODE_ENV === 'production') {

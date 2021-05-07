@@ -35,7 +35,7 @@ const AddBikeForm = () => {
         ...values,
         dateOfPurchase: formattedDateOfPurchase,
       });
-      console.log(res.data);
+
       if (res.status === 200) {
         notify('Saved', 'Bike Added successfully', 'success');
         // TODO: redirect

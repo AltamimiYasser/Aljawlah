@@ -34,7 +34,7 @@ exports.singIn = async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
 
     // create token
-    const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
+    const token = jwt.sign({ user: user._id }, process.env.TOKEN_SECRET);
 
     // return it
     res.cookie('token', token, { httpOnly: true, sameSite: 'strict' }).send();
