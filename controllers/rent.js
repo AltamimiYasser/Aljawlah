@@ -1,5 +1,8 @@
 const Rent = require('../models/Rent');
-const { calcTimeDiffInSeconds } = require('../utils/calcTimeAndPrice');
+const {
+  calcTimeDiffInSeconds,
+  calcPrice,
+} = require('../utils/calcTimeAndPrice');
 
 // get all rents
 exports.getAll = async (req, res) => {
@@ -63,7 +66,9 @@ exports.updateRent = async (req, res) => {
     if (!rent)
       return res.status(400).json({ errors: [{ msg: 'Rent not found' }] });
 
-    res.json(rent);
+    const savedRent = await Rent.findById(id);
+
+    res.json(savedRent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -95,28 +100,8 @@ exports.removeRent = async (req, res) => {
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
-/* 
-first request to create new rent:
-customer: pass the id
-bikes: pass the ids
-when we click start: /api/rents/:id/start
-lastStartTime: Date.now()
-hasStarted: true
-when we click pause: /api/rents/:id/pause
-isPaused: true
-TimeOut: timeStarted - now
-when we click resume:
-isPaused: false
-isResumed: true
-timeOut: continue increasing
-when we click end: /api/rents/:id/end
-isPaused: false
-isResumed: false
-hasEnded = true
-price: 10 Riyals for every 60 minutes
-*/
 
-// start the time for specified rent
+// start the time
 exports.startTime = async (req, res) => {
   try {
     const id = req.params.id;
@@ -134,8 +119,9 @@ exports.startTime = async (req, res) => {
     rent.hasStarted = true;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
+    const savedRent = await Rent.findById(id);
 
-    res.status(200).json({ msg: 'timer started' });
+    res.status(200).json({ msg: 'timer started', rent: savedRent });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -154,12 +140,17 @@ exports.pauseTime = async (req, res) => {
     const rent = await Rent.findById(id);
 
     if (!rent)
-      return res.status(400).json({ errorss: [{ msg: 'Rent not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Rent not found' }] });
 
     if (rent.isPaused)
       return res
         .status(400)
         .json({ errors: [{ msg: 'Timer already paused' }] });
+
+    if (!rent.hasStarted)
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Timer hasn't started" }] });
 
     rent.isPaused = true;
 
@@ -171,8 +162,9 @@ exports.pauseTime = async (req, res) => {
     rent.timeOut = difference + rent.timeOut;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
+    const savedRent = await Rent.findById(id);
 
-    res.json({ msg: 'timer paused' });
+    res.json({ msg: 'timer paused', rent: savedRent });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -193,10 +185,18 @@ exports.resumeTime = async (req, res) => {
     if (!rent)
       return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
 
-    if (!rent.isPaused && rent.hasStarted)
+    if (!rent.hasStarted)
       return res
         .status(400)
-        .json({ errors: [{ msg: 'Timer already running' }] });
+        .json({ errors: [{ msg: "Timer hasn't started" }] });
+
+    if (!rent.hasEnded) {
+      if (!rent.isPaused) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Timer already running' }] });
+      }
+    }
 
     if (!rent.hasStarted)
       return res.status(400).json({ errors: [{ msg: 'Timer did not start' }] });
@@ -205,7 +205,60 @@ exports.resumeTime = async (req, res) => {
     rent.lastStartTime = new Date();
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
-    res.status(200).json({ msg: 'Timer Resumed' });
+    const savedRent = await Rent.findById(id);
+    res.status(200).json({ msg: 'Timer Resumed', rent: savedRent });
+  } catch (err) {
+    console.error(err);
+    if (err.kind === 'ObjectId')
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Customer or Bike not found' }] });
+
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+  }
+};
+
+// end time
+exports.endTime = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const rent = await Rent.findById(id);
+
+    if (!rent)
+      return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
+
+    // time hasn't started?
+    if (!rent.hasStarted)
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Rent has not started' }] });
+
+    // has ended true
+    rent.hasEnded = true;
+
+    // isPaused false
+    rent.isPaused = false;
+
+    // if the rent is not paused, then calculate the rent
+    // from the lastStartTime
+    const now = new Date();
+    const dateLastStarted = rent.lastStartTime;
+    let difference = calcTimeDiffInSeconds(dateLastStarted, now);
+
+    // add the difference + the last calculated time
+    rent.timeOut = difference + rent.timeOut;
+    if (!rent.isPaused) {
+    }
+    // calculate price
+    rent.price = calcPrice(rent.timeOut);
+
+    // update rent
+    await Rent.findOneAndUpdate({ _id: id }, rent);
+    const savedRent = await Rent.findById(id);
+
+    console.log(`savedRent:timeOut: ${rent.timeOut}`);
+
+    res.status(200).json({ msg: 'Price updated', rent: savedRent });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')

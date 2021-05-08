@@ -8,6 +8,7 @@ const {
   startTime,
   pauseTime,
   resumeTime,
+  endTime,
 } = require('../controllers/rent');
 const userAuth = require('../middleware/userAuth');
 const { validateNewRent } = require('../utils/rentValidation');
@@ -35,6 +36,8 @@ router.put('/:id/pause', userAuth, pauseTime);
 
 // resume time
 router.put('/:id/resume', userAuth, resumeTime);
+
 // endTime
+router.put('/:id/end', userAuth, endTime);
 
 module.exports = router;
