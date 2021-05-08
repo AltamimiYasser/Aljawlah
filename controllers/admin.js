@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 exports.logAdmin = (req, res) => {
   // get username and password
-  const { username, password } = req.body;
+  const { username } = req.body;
 
   // create token and send it as a cookie using the admin token secret
   const token = jwt.sign({ user: username }, process.env.ADMIN_TOKEN_SECRET);

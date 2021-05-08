@@ -7,7 +7,7 @@ exports.getAll = async (req, res) => {
     res.json(bikes);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -17,18 +17,17 @@ exports.getBike = async (req, res) => {
     const id = req.params.id;
     const bike = await Bike.findById(id);
     if (!bike)
-      return res.status(404).json({ error: [{ msg: 'Bike not found' }] });
+      return res.status(404).json({ errors: [{ msg: 'Bike not found' }] });
 
     res.json(bike);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
 // create new bike
 exports.createBike = async (req, res) => {
-  console.log(req.body);
   try {
     const bike = req.body;
     const newBike = new Bike(bike);
@@ -36,7 +35,7 @@ exports.createBike = async (req, res) => {
     res.json(saveBike);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -46,16 +45,16 @@ exports.removeBike = async (req, res) => {
     const id = req.params.id;
     const bike = await Bike.findById(id);
     if (!bike)
-      return res.status(400).json({ error: [{ msg: 'Bike not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Bike not found' }] });
 
     bike.deleteOne();
     res.json({ msg: 'Bike removed' });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
-      return res.status(400).json({ error: [{ msg: 'Bike not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Bike not found' }] });
 
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -65,14 +64,14 @@ exports.updateBike = async (req, res) => {
     const id = req.params.id;
     const bike = await Bike.findOneAndUpdate({ _id: id }, req.body);
     if (!bike)
-      return res.status(400).json({ error: [{ msg: 'Bike not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Bike not found' }] });
 
     res.json(bike);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
-      return res.status(400).json({ error: [{ msg: 'Bike not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Bike not found' }] });
 
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };

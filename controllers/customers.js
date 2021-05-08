@@ -7,7 +7,7 @@ exports.getAll = async (req, res) => {
     res.json(customers);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -17,12 +17,12 @@ exports.getCustomer = async (req, res) => {
     const id = req.params.id;
     const customer = await Customer.findById(id);
     if (!customer)
-      return res.status(404).json({ error: [{ msg: 'Customer not found' }] });
+      return res.status(404).json({ errors: [{ msg: 'Customer not found' }] });
 
     res.json(customer);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -36,7 +36,7 @@ exports.createCustomer = async (req, res) => {
     res.json(saveCustomer);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -46,16 +46,16 @@ exports.removeCustomer = async (req, res) => {
     const id = req.params.id;
     const customer = await Customer.findById(id);
     if (!customer)
-      return res.status(400).json({ error: [{ msg: 'Customer not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Customer not found' }] });
 
     customer.deleteOne();
     res.json({ msg: 'Customer removed' });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
-      return res.status(400).json({ error: [{ msg: 'Customer not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Customer not found' }] });
 
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -66,14 +66,14 @@ exports.updateCustomer = async (req, res) => {
     const id = req.params.id;
     const customer = await Customer.findOneAndUpdate({ _id: id }, req.body);
     if (!customer)
-      return res.status(400).json({ error: [{ msg: 'Customer not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Customer not found' }] });
 
     res.json(customer);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
-      return res.status(400).json({ error: [{ msg: 'Customer not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'Customer not found' }] });
 
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };

@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
     res.status(200).send();
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -40,7 +40,7 @@ exports.singIn = async (req, res) => {
     res.cookie('token', token, { httpOnly: true, sameSite: 'strict' }).send();
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -80,7 +80,7 @@ exports.getAll = async (req, res) => {
     res.json(users);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
 
@@ -89,14 +89,14 @@ exports.removeUser = async (req, res) => {
     const id = req.params.id;
     const user = await User.findById(id);
     if (!user)
-      return res.status(400).json({ error: [{ msg: 'User not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'User not found' }] });
     user.deleteOne();
     res.json({ msg: 'User removed' });
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
-      return res.status(400).json({ error: [{ msg: 'User not found' }] });
+      return res.status(400).json({ errors: [{ msg: 'User not found' }] });
 
-    res.status(500).json({ error: [{ msg: 'Server error' }] });
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
 };
