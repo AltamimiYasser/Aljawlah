@@ -17,15 +17,13 @@ exports.getAll = async (req, res) => {
   }
 };
 
-// get a rent by id
-exports.getRent = async (req, res) => {
+// create a new rent
+exports.createRent = async (req, res) => {
   try {
-    const id = req.params.id;
-    const rent = await Rent.findById(id);
-    if (!rent)
-      return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
-
-    res.json(rent);
+    const rent = req.body;
+    const newRent = new Rent(rent);
+    const savedRent = await newRent.save();
+    res.json(savedRent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -37,14 +35,15 @@ exports.getRent = async (req, res) => {
   }
 };
 
-// create a new rent
-exports.createRent = async (req, res) => {
-  console.log(req.body);
+// get a rent by id
+exports.getRent = async (req, res) => {
   try {
-    const rent = req.body;
-    const newRent = new Rent(rent);
-    const savedRent = await newRent.save();
-    res.json(savedRent);
+    const id = req.params.id;
+    const rent = await Rent.findById(id);
+    if (!rent)
+      return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
+
+    res.json(rent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
