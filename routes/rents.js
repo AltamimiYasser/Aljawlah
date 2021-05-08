@@ -10,15 +10,16 @@ const {
   resumeTime,
 } = require('../controllers/rent');
 const userAuth = require('../middleware/userAuth');
+const { validateNewRent } = require('../utils/rentValidation');
 
 // get all rents
 router.get('/', userAuth, getAll);
 
+// create rent
+router.post('/', userAuth, validateNewRent, createRent);
+
 // get rent by id
 router.get('/:id', userAuth, getRent);
-
-// create rent
-router.post('/', userAuth, createRent);
 
 // update rent
 router.put('/:id', userAuth, updateRent);

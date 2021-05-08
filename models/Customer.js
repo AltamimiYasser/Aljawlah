@@ -12,6 +12,7 @@ const customerSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
+    unique: true,
   },
   idNumber: {
     type: String,
