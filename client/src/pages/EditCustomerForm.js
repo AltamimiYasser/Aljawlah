@@ -4,10 +4,25 @@ import { useParams } from 'react-router-dom';
 import CustomersForm from '../components/CustomersForm';
 import notify from '../utils/notifications';
 import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
 
 const EditBikeForm = () => {
   const { id } = useParams();
   const history = useHistory();
+
+  const classes = useStyles();
+
+  const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState({
     fName: '', // info - TextFiled DONE
     lName: '', // specification - TextFiled DONE
@@ -31,6 +46,7 @@ const EditBikeForm = () => {
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
     const loadData = async () => {
       const res = await axios.get(`/api/customers/${id}`);
       const { fName, lName, phone, idNumber, sex } = res.data;
@@ -45,11 +61,21 @@ const EditBikeForm = () => {
         });
     };
     loadData();
+    setLoading(false);
+
     return () => {
       isMounted = false;
     };
   }, [id]);
-  useEffect(() => async () => {}, [id]);
+
+  if (loading) {
+    return (
+      <div className={classes.root}>
+        <CircularProgress />
+        <CircularProgress color='secondary' />
+      </div>
+    );
+  }
 
   return (
     <>

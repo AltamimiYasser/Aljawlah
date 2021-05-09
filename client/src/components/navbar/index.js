@@ -83,10 +83,10 @@ const Navbar = () => {
         {loggedInUser || loggedInAdmin ? (
           <>
             <Link to='/rents' className='link'>
-              Rents List
+              Rents
             </Link>
             <Link to='/customers' className='link'>
-              Customers List
+              Customers
             </Link>
           </>
         ) : null}

@@ -8,6 +8,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import notify from '../utils/notifications';
+import { colors } from '../utils/styles';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -23,27 +24,37 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  root: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
 }));
+
+const styles = {
+  largeIcon: {
+    width: 40,
+    height: 40,
+    fill: '#38aa38',
+  },
+};
 
 const Users = () => {
   //
 
   const history = useHistory();
-
-  const styles = {
-    largeIcon: {
-      width: 40,
-      height: 40,
-      fill: '#38aa38',
-    },
-  };
   const confirm = useConfirm();
+
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+
   const classes = useStyles();
   const { changeTheme } = useContext(ThemeContext);
 
@@ -52,10 +63,12 @@ const Users = () => {
   }, [changeTheme]);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get('/api/auth/users')
       .then((res) => {
         setUsers(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         // TODO: add notifications
@@ -112,6 +125,7 @@ const Users = () => {
         startIcon: <DeleteIcon />,
       },
     }).then(async () => {
+      setLoading(true);
       try {
         await axios.delete(`/api/auth/users/${data._id}`);
 
@@ -119,7 +133,7 @@ const Users = () => {
           .get('/api/auth/users')
           .then((res) => {
             setUsers(res.data);
-            console.log(res.data);
+            setLoading(false);
           })
           .catch((err) => {
             // TODO: add notifications
@@ -136,6 +150,15 @@ const Users = () => {
     history.push('/register');
   };
 
+  if (loading) {
+    return (
+      <div className={classes.root}>
+        <CircularProgress />
+        <CircularProgress color='secondary' />
+      </div>
+    );
+  }
+
   return (
     <>
       <MaterielTable
@@ -143,7 +166,7 @@ const Users = () => {
         data={users}
         actions={[
           {
-            icon: DeleteIcon,
+            icon: () => <DeleteIcon color='secondary' />,
             tooltip: 'Delete',
             onClick: deleteUser,
           },
@@ -156,6 +179,15 @@ const Users = () => {
         ]}
         title='Users List'
         icons={tableIcons}
+        options={{
+          pageSize: 10,
+          actionsColumnIndex: -1,
+          headerStyle: {
+            backgroundColor: colors.PRIMARY.bg,
+            color: '#fff',
+            fontSize: '1rem',
+          },
+        }}
       />
     </>
   );

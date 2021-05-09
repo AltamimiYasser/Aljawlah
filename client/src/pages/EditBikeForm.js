@@ -5,10 +5,24 @@ import BikesForm from '../components/BikesForm';
 import notify from '../utils/notifications';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
 const EditBikeForm = () => {
   const { id } = useParams();
   const history = useHistory();
+
+  const classes = useStyles();
+
+  const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState({
     barcode: '', // info - TextFiled DONE
     color: '', // specification - TextFiled DONE
@@ -38,6 +52,7 @@ const EditBikeForm = () => {
 
   useEffect(() => {
     let isMounted = true;
+    setLoading(true);
     const loadData = async () => {
       const res = await axios.get(`/api/bikes/${id}`);
       const {
@@ -74,11 +89,21 @@ const EditBikeForm = () => {
         });
     };
     loadData();
+    setLoading(false);
+
     return () => {
       isMounted = false;
     };
   }, [id]);
-  useEffect(() => async () => {}, [id]);
+
+  if (loading) {
+    return (
+      <div className={classes.root}>
+        <CircularProgress />
+        <CircularProgress color='secondary' />
+      </div>
+    );
+  }
 
   return (
     <>

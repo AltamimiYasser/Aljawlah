@@ -23,10 +23,17 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
+  },
+  oot: {
+    display: 'flex',
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+    },
   },
 }));
 
@@ -42,7 +49,10 @@ const CustomersList = () => {
   //
   const confirm = useConfirm();
   const history = useHistory();
+
+  const [loading, setLoading] = useState(true);
   const [customers, setCustomers] = useState([]);
+
   const classes = useStyles();
   const { changeTheme } = useContext(ThemeContext);
 
@@ -51,10 +61,12 @@ const CustomersList = () => {
   }, [changeTheme]);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get('/api/customers')
       .then((res) => {
         setCustomers(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         // TODO: add notification
@@ -115,6 +127,7 @@ const CustomersList = () => {
         startIcon: <DeleteIcon />,
       },
     }).then(async () => {
+      setLoading(true);
       try {
         await axios.delete(`/api/customers/${data._id}`);
 
@@ -122,6 +135,7 @@ const CustomersList = () => {
           .get('/api/customers')
           .then((res) => {
             setCustomers(res.data);
+            setLoading(false);
           })
           .catch((err) => {
             // TODO: add notification
@@ -138,6 +152,15 @@ const CustomersList = () => {
   const redirectToNew = () => {
     history.push('/customers/new');
   };
+
+  if (loading) {
+    return (
+      <div className={classes.root}>
+        <CircularProgress />
+        <CircularProgress color='secondary' />
+      </div>
+    );
+  }
 
   return (
     <>
