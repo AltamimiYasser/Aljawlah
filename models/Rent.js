@@ -13,6 +13,14 @@ const rentSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  startTime: {
+    type: Date,
+    default: null,
+  },
+  endTime: {
+    type: Date,
+    default: null,
+  },
   lastStartTime: {
     type: Date,
     default: null,

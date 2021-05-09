@@ -3,12 +3,15 @@ const {
   calcTimeDiffInSeconds,
   calcPrice,
 } = require('../utils/calcTimeAndPrice');
+const { reMap, mapOne } = require('../utils/mapping');
 
 // get all rents
 exports.getAll = async (req, res) => {
   try {
-    const rents = await Rent.find();
-    res.json(rents);
+    const rents = await Rent.find().populate('customer').populate('bikes');
+
+    // map all rents and get user's name and phone
+    res.json(reMap(rents));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -42,11 +45,11 @@ exports.createRent = async (req, res) => {
 exports.getRent = async (req, res) => {
   try {
     const id = req.params.id;
-    const rent = await Rent.findById(id);
+    const rent = await Rent.findById(id).populate('customer').populate('bikes');
     if (!rent)
       return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
-
-    res.json(rent);
+    console.log('remapping');
+    res.json(mapOne(rent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -116,6 +119,7 @@ exports.startTime = async (req, res) => {
         .json({ errors: [{ msg: 'Timer already started' }] });
 
     rent.lastStartTime = new Date();
+    rent.startTime = new Date();
     rent.hasStarted = true;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);

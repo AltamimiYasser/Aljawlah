@@ -62,13 +62,7 @@ const RentsList = () => {
       });
   }, []);
 
-  const columns = [
-    { title: 'First Name', field: 'fName' },
-    { title: 'Last Name', field: 'lName' },
-    { title: 'Phone Number', field: 'phone' },
-    { title: 'ID', field: 'idNumber' },
-    { title: 'Sex', field: 'sex' },
-  ];
+  const columns = [{ title: 'Customer', field: 'customer' }];
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -97,16 +91,11 @@ const RentsList = () => {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
   };
 
-  // redirect to edit bike page
-  const editCustomer = (e, data) => {
-    history.push(`/customers/edit/${data._id}`);
-  };
-
-  // confirm then delete a bike
-  const deleteCustomer = (e, data) => {
+  // confirm then delete a rent
+  const deleteRent = (e, data) => {
     // delete the bike here
     confirm({
-      description: 'Are you sure you want to delete this Customer?',
+      description: 'Are you sure you want to delete this rent?',
       confirmationText: 'Delete',
       confirmationButtonProps: {
         className: classes.button,
@@ -116,12 +105,12 @@ const RentsList = () => {
       },
     }).then(async () => {
       try {
-        await axios.delete(`/api/customers/${data._id}`);
+        await axios.delete(`/api/rents/${data._id}`);
 
         axios
           .get('/api/customers')
           .then((res) => {
-            setCustomers(res.data);
+            setRents(res.data);
           })
           .catch((err) => {
             // TODO: add notification
@@ -136,24 +125,19 @@ const RentsList = () => {
   };
 
   const redirectToNew = () => {
-    history.push('/customers/new');
+    history.push('/rents/new');
   };
 
   return (
     <>
       <MaterielTable
         columns={columns}
-        data={customers}
+        data={rents}
         actions={[
-          {
-            icon: () => <Edit />,
-            tooltip: 'Edit',
-            onClick: editCustomer,
-          },
           {
             icon: () => <DeleteIcon color='secondary' />,
             tooltip: 'Delete',
-            onClick: deleteCustomer,
+            onClick: deleteRent,
           },
           {
             icon: () => <AddBox style={styles.largeIcon} />,
@@ -162,7 +146,7 @@ const RentsList = () => {
             onClick: redirectToNew,
           },
         ]}
-        title='Customers List'
+        title='Rents List'
         options={{
           pageSize: 10,
           actionsColumnIndex: -1,
