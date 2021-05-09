@@ -12,7 +12,7 @@ exports.calcPrice = (timeInSeconds) => {
   if (minutes <= 60) return 10;
 
   // more? calculate to the nearest 10
-  const hours = round(minutes);
+  const hours = roundToHour(minutes);
 
   return 10 * hours;
 };

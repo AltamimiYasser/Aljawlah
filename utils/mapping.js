@@ -25,6 +25,14 @@ const mapOne = (rent) => {
   const startTime = rent.startTime;
   const endTime = rent.endTime;
   const id = rent._id;
+  const {
+    lastStartTime,
+    hasStarted,
+    isPaused,
+    hasEnded,
+    timeOut,
+    price,
+  } = rent;
   return {
     name: `${fName} ${lName}`,
     phone,
@@ -33,6 +41,12 @@ const mapOne = (rent) => {
     startTime,
     endTime,
     id,
+    lastStartTime,
+    hasStarted,
+    isPaused,
+    hasEnded,
+    timeOut,
+    price,
   };
 };
 

@@ -20,6 +20,18 @@ const customerSchema = new mongoose.Schema({
   sex: {
     type: String,
   },
+  rents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'rent',
+    },
+  ],
+  bikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'bike',
+    },
+  ],
 });
 
 module.exports = mongoose.model('customer', customerSchema);

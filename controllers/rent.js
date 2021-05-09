@@ -1,4 +1,5 @@
 const Rent = require('../models/Rent');
+const Customer = require('../models/Customer');
 const {
   calcTimeDiffInSeconds,
   calcPrice,
@@ -27,9 +28,39 @@ exports.getAll = async (req, res) => {
 exports.createRent = async (req, res) => {
   try {
     const rent = req.body;
+
+    // rent document
     const newRent = new Rent(rent);
     const savedRent = await newRent.save();
-    res.json(savedRent);
+
+    // customer document
+    const customerId = savedRent.customer;
+    const customer = await Customer.findById(customerId);
+
+    if (!customer)
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Customer doesn't exist" }] });
+
+    // add bikes to customer document
+    const bikes = rent.bikes;
+
+    await Customer.findOneAndUpdate(
+      { _id: customerId },
+      { $push: { bikes: { $each: bikes } } }
+    );
+
+    // add rent to customer document
+    await Customer.findOneAndUpdate(
+      { _id: customerId },
+      { $push: { rents: savedRent._id } }
+    );
+
+    // res json
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -70,8 +101,10 @@ exports.updateRent = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: 'Rent not found' }] });
 
     const savedRent = await Rent.findById(id);
-
-    res.json(savedRent);
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -124,8 +157,10 @@ exports.startTime = async (req, res) => {
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
-
-    res.status(200).json({ msg: 'timer started', rent: savedRent });
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -167,8 +202,10 @@ exports.pauseTime = async (req, res) => {
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
-
-    res.json({ msg: 'timer paused', rent: savedRent });
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -210,7 +247,10 @@ exports.resumeTime = async (req, res) => {
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
-    res.status(200).json({ msg: 'Timer Resumed', rent: savedRent });
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -240,29 +280,30 @@ exports.endTime = async (req, res) => {
     // has ended true
     rent.hasEnded = true;
 
+    // if the rent is not paused, then calculate the rent
+    // from the lastStartTime
+    let difference = 0;
+    if (!rent.isPaused) {
+      const now = new Date();
+      const dateLastStarted = rent.lastStartTime;
+      difference = calcTimeDiffInSeconds(dateLastStarted, now);
+    }
+
     // isPaused false
     rent.isPaused = false;
 
-    // if the rent is not paused, then calculate the rent
-    // from the lastStartTime
-    const now = new Date();
-    const dateLastStarted = rent.lastStartTime;
-    let difference = calcTimeDiffInSeconds(dateLastStarted, now);
-
     // add the difference + the last calculated time
     rent.timeOut = difference + rent.timeOut;
-    if (!rent.isPaused) {
-    }
     // calculate price
     rent.price = calcPrice(rent.timeOut);
 
     // update rent
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
-
-    console.log(`savedRent:timeOut: ${rent.timeOut}`);
-
-    res.status(200).json({ msg: 'Price updated', rent: savedRent });
+    const resRent = await Rent.findById(savedRent._id)
+      .populate('customer')
+      .populate('bikes');
+    res.json(mapOne(resRent));
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
