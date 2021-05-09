@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import notify from '../utils/notifications';
 import { colors } from '../utils/styles';
+import moment from 'moment';
 
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -62,7 +63,35 @@ const RentsList = () => {
       });
   }, []);
 
-  const columns = [{ title: 'Customer', field: 'customer' }];
+  const columns = [
+    { title: 'Name', field: 'name' },
+    { title: 'Phone', field: 'phone' },
+    {
+      title: 'Bikes',
+      field: 'bikes',
+      render: ({ bikes }) => {
+        const sizes = bikes.map((bike) => bike.size);
+        const combined = sizes.join(', ');
+        return <>{combined}</>;
+      },
+    },
+    {
+      title: 'Start Time',
+      field: 'startTime',
+      render: ({ startTime }) => {
+        if (!startTime) return <>-</>;
+        return <>{moment(startTime).format('hh:mm')}</>;
+      },
+    },
+    {
+      title: 'End Time',
+      field: 'endTime',
+      render: ({ endTime }) => {
+        if (!endTime) return <>-</>;
+        return <>{moment(endTime).format('hh:mm')}</>;
+      },
+    },
+  ];
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
