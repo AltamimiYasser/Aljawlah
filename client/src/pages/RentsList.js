@@ -3,9 +3,7 @@ import ThemeContext from '../context/themeContext';
 import axios from 'axios';
 import MaterielTable from 'material-table';
 import { useHistory } from 'react-router-dom';
-import { useConfirm } from 'material-ui-confirm';
 import { makeStyles } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import notify from '../utils/notifications';
 import { colors } from '../utils/styles';
 import moment from 'moment';
@@ -25,6 +23,10 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import PlayCircleFilledSharpIcon from '@material-ui/icons/PlayCircleFilledSharp';
+import PauseCircleFilledSharpIcon from '@material-ui/icons/PauseCircleFilledSharp';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import StopIcon from '@material-ui/icons/Stop';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -44,11 +46,30 @@ const styles = {
     height: 40,
     fill: '#38aa38',
   },
+  playIcon: {
+    width: 30,
+    height: 30,
+    fill: '#38aa38',
+  },
+  pauseIcon: {
+    width: 30,
+    height: 30,
+    fill: '#ff8000',
+  },
+  resumeIcon: {
+    width: 30,
+    height: 30,
+    fill: '#ff8000',
+  },
+  stopIcon: {
+    width: 30,
+    height: 30,
+    fill: '#ff4000',
+  },
 };
 
 const RentsList = () => {
   //
-  const confirm = useConfirm();
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
@@ -103,6 +124,17 @@ const RentsList = () => {
         return <>{moment(endTime).format('hh:mm')}</>;
       },
     },
+    {
+      title: 'Price',
+      field: 'price',
+    },
+    {
+      title: 'Time',
+      render: (rowData) => {
+        const startTime = rowData.timeOut;
+        return <>{startTime}</>;
+      },
+    },
   ];
 
   const tableIcons = {
@@ -132,43 +164,86 @@ const RentsList = () => {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
   };
 
-  // confirm then delete a rent
-  const deleteRent = (e, data) => {
-    // delete the bike here
-    confirm({
-      description: 'Are you sure you want to delete this rent?',
-      confirmationText: 'Delete',
-      confirmationButtonProps: {
-        className: classes.button,
-        variant: 'contained',
-        color: 'secondary',
-        startIcon: <DeleteIcon />,
-      },
-    }).then(async () => {
-      setLoading(true);
-      try {
-        await axios.delete(`/api/rents/${data._id}`);
-
-        axios
-          .get('/api/customers')
-          .then((res) => {
-            setRents(res.data);
-            setLoading(false);
-          })
-          .catch((err) => {
-            // TODO: add notification
-            console.error(err);
-          });
-      } catch (err) {
-        // TODO: makes suer error message works
-        notify('Error', err.message, 'danger');
-      }
-      // call delete bike by id
-    });
-  };
-
   const redirectToNew = () => {
     history.push('/rents/new');
+  };
+
+  const loadData = async () => {
+    axios
+      .get('/api/rents')
+      .then((res) => {
+        setRents(res.data);
+      })
+      .catch((err) => {
+        // TODO: add notification
+        console.error(err);
+      });
+  };
+
+  // start timer
+  const startRent = async (e, data) => {
+    try {
+      await axios.put(`/api/rents/${data.id}/start`);
+      // start timer
+      // load data
+      loadData();
+    } catch (err) {
+      const errorMsg = err.response.data.errors[0].msg;
+      notify('error', errorMsg || 'Error', 'danger');
+    }
+  };
+
+  // pause rent
+  const pauseRent = async (e, data) => {
+    console.log(data);
+    try {
+      await axios.put(`/api/rents/${data.id}/pause`);
+      // start timer
+      // load data
+      loadData();
+    } catch (err) {
+      const errorMsg = err.response.data.errors[0].msg;
+      notify('error', errorMsg || 'Error', 'danger');
+    }
+  };
+
+  // resume time
+  const resumeRent = async (e, data) => {
+    console.log(data);
+    try {
+      await axios.put(`/api/rents/${data.id}/resume`);
+      // start timer
+      // load data
+      loadData();
+    } catch (err) {
+      const errorMsg = err.response.data.errors[0].msg;
+      notify('error', errorMsg || 'Error', 'danger');
+    }
+  };
+
+  const disableResumeAction = (rowData) => {
+    if (!rowData.hasEnded) {
+      if (!rowData.isPaused) {
+        return true;
+      }
+    } else if (!rowData.hasStarted) {
+      return true;
+    }
+
+    return false;
+  };
+
+  // end time
+  const endRent = async (e, data) => {
+    try {
+      await axios.put(`/api/rents/${data.id}/end`);
+      // start timer
+      // load data
+      loadData();
+    } catch (err) {
+      const errorMsg = err.response.data.errors[0].msg;
+      notify('error', errorMsg || 'Error', 'danger');
+    }
   };
 
   if (loading) {
@@ -187,16 +262,52 @@ const RentsList = () => {
         data={rents}
         actions={[
           {
-            icon: () => <DeleteIcon color='secondary' />,
-            tooltip: 'Delete',
-            onClick: deleteRent,
-          },
-          {
             icon: () => <AddBox style={styles.largeIcon} />,
             tooltip: 'Add',
             position: 'toolbar',
             onClick: redirectToNew,
           },
+          // start and pause and stop actions
+          (rowData) => ({
+            icon: ({ disabled }) => {
+              if (!disabled)
+                return <PlayCircleFilledSharpIcon style={styles.playIcon} />;
+              return <PlayCircleFilledSharpIcon color='disabled' />;
+            },
+            tooltip: 'Start',
+            onClick: startRent,
+            disabled: rowData.hasStarted,
+          }),
+
+          (rowData) => ({
+            icon: ({ disabled }) => {
+              if (!disabled)
+                return <PauseCircleFilledSharpIcon style={styles.pauseIcon} />;
+              return <PauseCircleFilledSharpIcon color='disabled' />;
+            },
+            tooltip: 'Pause',
+            onClick: pauseRent,
+            disabled: !rowData.hasStarted || rowData.isPaused,
+          }),
+
+          (rowData) => ({
+            icon: ({ disabled }) => {
+              if (!disabled) return <PlayArrowIcon style={styles.resumeIcon} />;
+              return <PlayArrowIcon color='disabled' />;
+            },
+            tooltip: 'Resume',
+            onClick: resumeRent,
+            disabled: disableResumeAction(rowData),
+          }),
+          (rowData) => ({
+            icon: ({ disabled }) => {
+              if (!disabled) return <StopIcon style={styles.stopIcon} />;
+              return <StopIcon color='disabled' />;
+            },
+            tooltip: 'End',
+            onClick: endRent,
+            disabled: !rowData.hasStarted,
+          }),
         ]}
         title='Rents List'
         options={{

@@ -5,19 +5,20 @@ exports.calcTimeDiffInSeconds = (start, end) => {
 };
 
 exports.calcPrice = (timeInSeconds) => {
-  // calculate minutes
-  const minutes = Math.floor(timeInSeconds / 60);
+  let totalSeconds = timeInSeconds;
+  let hours = Math.floor(totalSeconds / 3600);
+  totalSeconds %= 3600;
+  let minutes = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
 
-  // on hour or less 10 riyals
-  if (minutes <= 60) return 10;
+  console.log('hours: ' + hours);
+  console.log('minutes: ' + minutes);
+  console.log('seconds: ' + seconds);
 
-  // more? calculate to the nearest 10
-  const hours = roundToHour(minutes);
-
-  return 10 * hours;
-};
-
-// round to next hour
-const roundToHour = (minutes) => {
-  return Math.ceil(minutes / 10);
+  if (!hours) {
+    return 10;
+  }
+  let price = hours * 10;
+  if (minutes) price += 10;
+  return price;
 };

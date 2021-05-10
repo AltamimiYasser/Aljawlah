@@ -243,6 +243,7 @@ exports.resumeTime = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: 'Timer did not start' }] });
 
     rent.isPaused = false;
+    rent.hasEnded = false;
     rent.lastStartTime = new Date();
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
@@ -283,14 +284,17 @@ exports.endTime = async (req, res) => {
     // if the rent is not paused, then calculate the rent
     // from the lastStartTime
     let difference = 0;
+    const now = new Date();
     if (!rent.isPaused) {
-      const now = new Date();
       const dateLastStarted = rent.lastStartTime;
       difference = calcTimeDiffInSeconds(dateLastStarted, now);
     }
 
     // isPaused false
-    rent.isPaused = false;
+    rent.isPaused = true;
+
+    // add end time
+    rent.endTime = now;
 
     // add the difference + the last calculated time
     rent.timeOut = difference + rent.timeOut;
