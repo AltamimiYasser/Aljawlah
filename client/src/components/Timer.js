@@ -1,7 +1,28 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import styled from 'styled-components';
 
-const Timer = ({ startTimeInSeconds, isActive }) => {
+const StyledTimer = styled.div`
+  /* background: ${(props) =>
+    props.active
+      ? '#38aa38'
+      : props.paused
+      ? '#ff8000'
+      : props.ended
+      ? '#ff4000'
+      : '#fff'}; */
+  background: ${({ active, paused, ended }) =>
+    (active && '#38aa38') ||
+    (paused && ended && 'rgb(187, 47, 0)') ||
+    (paused && '#ff8000') ||
+    'lightgray'};
+  width: 100%;
+  text-align: center;
+  border-radius: 1.5em;
+  padding: 0.3em 0.1em;
+`;
+
+const Timer = ({ startTimeInSeconds, isActive, paused, ended }) => {
   const [seconds, setSeconds] = useState(startTimeInSeconds);
 
   useEffect(() => {
@@ -15,7 +36,11 @@ const Timer = ({ startTimeInSeconds, isActive }) => {
     }
     return () => clearInterval(interval);
   }, [isActive, seconds]);
-  return <>{new Date(seconds * 1000).toISOString().substr(11, 8)}</>;
+  return (
+    <StyledTimer active={isActive} paused={paused} ended={ended}>
+      {new Date(seconds * 1000).toISOString().substr(11, 8)}
+    </StyledTimer>
+  );
 };
 
 export default Timer;
