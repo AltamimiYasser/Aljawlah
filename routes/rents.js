@@ -19,7 +19,7 @@ router.get('/', userAuth, getAll);
 // create rent
 router.post('/', userAuth, validateNewRent, createRent);
 
-// get rent by id
+// get rent by id // details
 router.get('/:id', userAuth, getRent);
 
 // update rent

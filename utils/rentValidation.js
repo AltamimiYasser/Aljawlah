@@ -19,7 +19,6 @@ exports.validateNewRent = [
     }),
   check('bikes', 'You must add at least one bike').isArray({ min: 1 }),
   check('bikes.*', 'Invalid Id').custom(async (value) => {
-    console.log(`bikeId: ${value}`);
     // make sure it's a valid id
     if (!mongoose.Types.ObjectId.isValid(value))
       return Promise.reject('invalid bike Id');

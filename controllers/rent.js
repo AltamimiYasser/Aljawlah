@@ -63,8 +63,8 @@ exports.createRent = async (req, res) => {
     const resRent = await Rent.findById(savedRent._id)
       .populate('customer')
       .populate('bikes');
-    // res.json(mapOne(resRent));
-    res.json(savedRent);
+
+    res.json(resRent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -83,7 +83,7 @@ exports.getRent = async (req, res) => {
     const rent = await Rent.findById(id).populate('customer').populate('bikes');
     if (!rent)
       return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
-    res.json(mapOne(rent));
+    res.json(rent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
@@ -158,6 +158,7 @@ exports.startTime = async (req, res) => {
     rent.startTime = new Date();
     rent.hasStarted = true;
     rent.timerRunning = true;
+    rent.isPaused = false;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
@@ -197,6 +198,7 @@ exports.pauseTime = async (req, res) => {
 
     rent.isPaused = true;
     rent.timerRunning = false;
+    rent.neverPaused = false;
 
     const now = new Date();
     const dateLastStarted = rent.lastStartTime;

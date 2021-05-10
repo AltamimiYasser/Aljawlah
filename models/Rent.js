@@ -53,6 +53,10 @@ const rentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  neverPaused: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model('rent', rentSchema);

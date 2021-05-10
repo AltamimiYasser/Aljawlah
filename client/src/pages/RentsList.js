@@ -27,6 +27,7 @@ import PlayCircleFilledSharpIcon from '@material-ui/icons/PlayCircleFilledSharp'
 import PauseCircleFilledSharpIcon from '@material-ui/icons/PauseCircleFilledSharp';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
+import DetailsIcon from '@material-ui/icons/Details';
 import Timer from '../components/Timer';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +68,11 @@ const styles = {
     height: 30,
     fill: '#ff4000',
   },
+  detailsIcon: {
+    width: 30,
+    height: 30,
+    fill: '#2550ee',
+  },
 };
 
 const tableIcons = {
@@ -90,6 +96,24 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+};
+
+const convertJsonToDate = (str) => {
+  const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+  const reviver = (key, value) => {
+    if (typeof value === 'string' && dateFormat.test(value)) {
+      return new Date(value);
+    }
+
+    return value;
+  };
+  return JSON.parse(str, reviver);
+};
+
+const calcTimeDiffInSeconds = (start, end) => {
+  let difference = (end.getTime() - start.getTime()) / 1000;
+  difference = Math.abs(Math.round(difference));
+  return difference;
 };
 
 const RentsList = () => {
@@ -152,10 +176,27 @@ const RentsList = () => {
       title: 'Price',
       field: 'price',
     },
+    { title: 'hasStarted', field: 'hasStarted' },
+    { title: 'neverPaused', field: 'neverPaused' },
     {
       title: 'Time',
       render: (rowData) => {
-        const startTime = rowData.timeOut;
+        // let startTime = 0;
+        let startTime = rowData.timeOut;
+        console.log(`lastStartTime: ${rowData.lastStartTime}`);
+        if (rowData.hasStarted && rowData.neverPaused) startTime = 20;
+        // // if it hasn't started yet then start time = 0
+        // // if timer is never paused and the timer has started
+        // // then start time should be difference from now to lastStarted
+        // if (rowData.neverPaused && rowData.hasStarted) {
+        //   const now = new Date();
+        //   let start = rowData.lastStartTime;
+        //   console.log(`start: ${start}`);
+        //   start = convertJsonToDate(start);
+        //   startTime = calcTimeDiffInSeconds(start, now);
+        // } else {
+        //   startTime = rowData.timeOut;
+        // }
         return (
           <Timer
             isActive={rowData.timerRunning}
@@ -186,6 +227,7 @@ const RentsList = () => {
 
   // start timer
   const startRent = async (e, data) => {
+    console.log(data);
     try {
       await axios.put(`/api/rents/${data.id}/start`);
       // start timer
@@ -224,20 +266,20 @@ const RentsList = () => {
   };
 
   const disableResumeAction = (rowData) => {
+    if (!rowData.hasStarted) {
+      return true;
+    }
+
     if (!rowData.hasEnded) {
       if (!rowData.isPaused) {
         return true;
       }
-    } else if (!rowData.hasStarted) {
-      return true;
     }
-
     return false;
   };
 
   // end time
   const endRent = async (e, data) => {
-    console.log(data);
     try {
       await axios.put(`/api/rents/${data.id}/end`);
       // start timer
@@ -290,7 +332,7 @@ const RentsList = () => {
             },
             tooltip: 'Pause',
             onClick: pauseRent,
-            disabled: !rowData.hasStarted || rowData.isPaused,
+            disabled: !rowData.timerRunning,
           }),
 
           (rowData) => ({
@@ -310,6 +352,12 @@ const RentsList = () => {
             tooltip: 'End',
             onClick: endRent,
             disabled: !rowData.hasStarted || rowData.hasEnded,
+          }),
+          (rowData) => ({
+            icon: () => <DetailsIcon style={styles.detailsIcon} />,
+            tooltip: 'Details',
+            onClick: () => history.push(`/rents/${rowData.id}`),
+            position: 'toolbarOnSelect',
           }),
         ]}
         title='Rents List'

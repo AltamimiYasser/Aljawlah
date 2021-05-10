@@ -34,6 +34,7 @@ const mapOne = (rent) => {
     price,
     timerRunning,
     createdAt,
+    neverPaused,
   } = rent;
   return {
     name: `${fName} ${lName}`,
@@ -51,6 +52,7 @@ const mapOne = (rent) => {
     price,
     timerRunning,
     createdAt,
+    neverPaused,
   };
 };
 
