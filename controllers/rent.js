@@ -63,7 +63,8 @@ exports.createRent = async (req, res) => {
     const resRent = await Rent.findById(savedRent._id)
       .populate('customer')
       .populate('bikes');
-    res.json(mapOne(resRent));
+    // res.json(mapOne(resRent));
+    res.json(savedRent);
   } catch (err) {
     console.error(err);
     if (err.kind === 'ObjectId')
