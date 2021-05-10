@@ -79,7 +79,6 @@ exports.getRent = async (req, res) => {
     const rent = await Rent.findById(id).populate('customer').populate('bikes');
     if (!rent)
       return res.status(404).json({ errors: [{ msg: 'Rent not found' }] });
-    console.log('remapping');
     res.json(mapOne(rent));
   } catch (err) {
     console.error(err);
@@ -154,6 +153,7 @@ exports.startTime = async (req, res) => {
     rent.lastStartTime = new Date();
     rent.startTime = new Date();
     rent.hasStarted = true;
+    rent.timerRunning = true;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
@@ -192,6 +192,7 @@ exports.pauseTime = async (req, res) => {
         .json({ errors: [{ msg: "Timer hasn't started" }] });
 
     rent.isPaused = true;
+    rent.timerRunning = false;
 
     const now = new Date();
     const dateLastStarted = rent.lastStartTime;
@@ -245,6 +246,7 @@ exports.resumeTime = async (req, res) => {
     rent.isPaused = false;
     rent.hasEnded = false;
     rent.lastStartTime = new Date();
+    rent.timerRunning = true;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
@@ -280,6 +282,7 @@ exports.endTime = async (req, res) => {
 
     // has ended true
     rent.hasEnded = true;
+    rent.timerRunning = false;
 
     // if the rent is not paused, then calculate the rent
     // from the lastStartTime

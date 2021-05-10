@@ -11,10 +11,6 @@ exports.calcPrice = (timeInSeconds) => {
   let minutes = Math.floor(totalSeconds / 60);
   let seconds = totalSeconds % 60;
 
-  console.log('hours: ' + hours);
-  console.log('minutes: ' + minutes);
-  console.log('seconds: ' + seconds);
-
   if (!hours) {
     return 10;
   }

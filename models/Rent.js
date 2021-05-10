@@ -31,7 +31,7 @@ const rentSchema = new mongoose.Schema({
   },
   isPaused: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   hasEnded: {
     type: Boolean,
@@ -44,6 +44,10 @@ const rentSchema = new mongoose.Schema({
   price: {
     type: Number,
     default: 0,
+  },
+  timerRunning: {
+    type: Boolean,
+    default: false,
   },
 });
 

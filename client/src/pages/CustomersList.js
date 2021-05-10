@@ -111,7 +111,6 @@ const CustomersList = () => {
 
   // redirect to edit bike page
   const editCustomer = (e, data) => {
-    console.log(`data: ${JSON.stringify(data)}`);
     history.push(`/customers/edit/${data._id}`);
   };
 

@@ -27,6 +27,7 @@ import PlayCircleFilledSharpIcon from '@material-ui/icons/PlayCircleFilledSharp'
 import PauseCircleFilledSharpIcon from '@material-ui/icons/PauseCircleFilledSharp';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
+import Timer from '../components/Timer';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -132,7 +133,12 @@ const RentsList = () => {
       title: 'Time',
       render: (rowData) => {
         const startTime = rowData.timeOut;
-        return <>{startTime}</>;
+        return (
+          <Timer
+            isActive={rowData.timerRunning}
+            startTimeInSeconds={startTime}
+          />
+        );
       },
     },
   ];
@@ -195,7 +201,6 @@ const RentsList = () => {
 
   // pause rent
   const pauseRent = async (e, data) => {
-    console.log(data);
     try {
       await axios.put(`/api/rents/${data.id}/pause`);
       // start timer
@@ -209,7 +214,6 @@ const RentsList = () => {
 
   // resume time
   const resumeRent = async (e, data) => {
-    console.log(data);
     try {
       await axios.put(`/api/rents/${data.id}/resume`);
       // start timer

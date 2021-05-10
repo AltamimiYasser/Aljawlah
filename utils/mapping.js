@@ -32,6 +32,7 @@ const mapOne = (rent) => {
     hasEnded,
     timeOut,
     price,
+    timerRunning,
   } = rent;
   return {
     name: `${fName} ${lName}`,
@@ -47,6 +48,7 @@ const mapOne = (rent) => {
     hasEnded,
     timeOut,
     price,
+    timerRunning,
   };
 };
 
