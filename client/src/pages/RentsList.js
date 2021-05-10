@@ -98,18 +98,6 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const convertJsonToDate = (str) => {
-  const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
-  const reviver = (key, value) => {
-    if (typeof value === 'string' && dateFormat.test(value)) {
-      return new Date(value);
-    }
-
-    return value;
-  };
-  return JSON.parse(str, reviver);
-};
-
 const calcTimeDiffInSeconds = (start, end) => {
   let difference = (end.getTime() - start.getTime()) / 1000;
   difference = Math.abs(Math.round(difference));
@@ -176,16 +164,13 @@ const RentsList = () => {
       title: 'Price',
       field: 'price',
     },
-    { title: 'hasStarted', field: 'hasStarted' },
-    { title: 'neverPaused', field: 'neverPaused' },
+    // { title: 'hasStarted', field: 'hasStarted' },
+    // { title: 'neverPaused', field: 'neverPaused' },
     {
-      title: 'lastStarted',
+      title: 'Last Start Time',
       field: 'lastStartTime',
       render: ({ lastStartTime }) => {
         if (!lastStartTime) return <>-</>;
-        console.log(
-          `typeOfMomentDate ${typeof moment(lastStartTime).toDate()}`
-        );
         return <>{moment(lastStartTime).format('hh:mm')}</>;
       },
     },
