@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const rentSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now,
   },
   customer: {
     type: mongoose.Schema.Types.ObjectId,

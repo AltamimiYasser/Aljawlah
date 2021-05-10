@@ -179,24 +179,27 @@ const RentsList = () => {
     { title: 'hasStarted', field: 'hasStarted' },
     { title: 'neverPaused', field: 'neverPaused' },
     {
+      title: 'lastStarted',
+      field: 'lastStartTime',
+      render: ({ lastStartTime }) => {
+        if (!lastStartTime) return <>-</>;
+        console.log(
+          `typeOfMomentDate ${typeof moment(lastStartTime).toDate()}`
+        );
+        return <>{moment(lastStartTime).format('hh:mm')}</>;
+      },
+    },
+    {
       title: 'Time',
       render: (rowData) => {
         // let startTime = 0;
         let startTime = rowData.timeOut;
-        console.log(`lastStartTime: ${rowData.lastStartTime}`);
-        if (rowData.hasStarted && rowData.neverPaused) startTime = 20;
-        // // if it hasn't started yet then start time = 0
-        // // if timer is never paused and the timer has started
-        // // then start time should be difference from now to lastStarted
-        // if (rowData.neverPaused && rowData.hasStarted) {
-        //   const now = new Date();
-        //   let start = rowData.lastStartTime;
-        //   console.log(`start: ${start}`);
-        //   start = convertJsonToDate(start);
-        //   startTime = calcTimeDiffInSeconds(start, now);
-        // } else {
-        //   startTime = rowData.timeOut;
-        // }
+        if (rowData.hasStarted && rowData.neverPaused) {
+          const now = new Date();
+          const start = moment(rowData.lastStartTime).toDate();
+          startTime = calcTimeDiffInSeconds(start, now);
+        }
+
         return (
           <Timer
             isActive={rowData.timerRunning}
