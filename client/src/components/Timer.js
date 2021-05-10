@@ -3,19 +3,11 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledTimer = styled.div`
-  /* background: ${(props) =>
-    props.active
-      ? '#38aa38'
-      : props.paused
-      ? '#ff8000'
-      : props.ended
-      ? '#ff4000'
-      : '#fff'}; */
   background: ${({ active, paused, ended }) =>
     (active && '#38aa38') ||
     (paused && ended && 'rgb(187, 47, 0)') ||
     (paused && '#ff8000') ||
-    'lightgray'};
+    'lightgrey'};
   width: 100%;
   text-align: center;
   border-radius: 1.5em;

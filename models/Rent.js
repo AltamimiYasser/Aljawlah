@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const rentSchema = new mongoose.Schema({
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'customer',

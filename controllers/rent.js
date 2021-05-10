@@ -9,7 +9,10 @@ const { reMap, mapOne } = require('../utils/mapping');
 // get all rents
 exports.getAll = async (req, res) => {
   try {
-    const rents = await Rent.find().populate('customer').populate('bikes');
+    const rents = await Rent.find()
+      .populate('customer')
+      .populate('bikes')
+      .sort({ createdAt: -1 });
 
     // map all rents and get user's name and phone
     res.json(reMap(rents));
