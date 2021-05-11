@@ -60,6 +60,17 @@ exports.createRent = async (req, res) => {
       { $push: { rents: savedRent._id } }
     );
 
+    // update bikes status to be out
+    const changeBikeStatus = async () => {
+      for (const bikeId of rent.bikes) {
+        const bike = await Bike.findById(bikeId);
+        if (!bike) console.log(`bike not found`);
+        bike.isOut = true;
+        await bike.save();
+      }
+    };
+    changeBikeStatus();
+
     // res json
     const resRent = await Rent.findById(savedRent._id)
       .populate('customer')
@@ -319,8 +330,10 @@ exports.endTime = async (req, res) => {
 
     // add the difference + the last calculated time
     rent.timeOut = difference + rent.timeOut;
+
     // calculate price
-    rent.price = calcPrice(rent.timeOut);
+    const numOfBikes = rent.bikes.length;
+    rent.price = calcPrice(rent.timeOut) * numOfBikes;
 
     // update bikes status
     const changeBikeStatus = async () => {

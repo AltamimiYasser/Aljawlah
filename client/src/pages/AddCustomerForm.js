@@ -31,7 +31,7 @@ const AddCustomerForm = (props) => {
         if (!phoneNumber) {
           history.push('/customers');
         } else {
-          history.push('/rents/choosebike', [{ customerId: res.data._id }]);
+          history.push('/rents/choosebike', [{ customer: res.data }]);
         }
       }
     } catch (err) {

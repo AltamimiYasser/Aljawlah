@@ -22,6 +22,7 @@ const AddRentPhone = () => {
       // if we didn't find user by the phone number go to create a user and pass
       // to it the phone
       if (res.data.found) {
+        history.push('/rents/choosebike', [{ customer: res.data.customer }]);
       } else {
         history.push('/customers/new', [{ phoneNumber: values.phoneNumber }]);
       }

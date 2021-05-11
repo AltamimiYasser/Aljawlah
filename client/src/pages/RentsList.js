@@ -191,6 +191,7 @@ const RentsList = () => {
             startTimeInSeconds={startTime}
             paused={rowData.isPaused}
             ended={rowData.hasEnded}
+            started={rowData.hasStarted}
           />
         );
       },
@@ -215,7 +216,6 @@ const RentsList = () => {
 
   // start timer
   const startRent = async (e, data) => {
-    console.log(data);
     try {
       await axios.put(`/api/rents/${data.id}/start`);
       // start timer
@@ -277,6 +277,11 @@ const RentsList = () => {
       const errorMsg = err.response.data.errors[0].msg;
       notify('error', errorMsg || 'Error', 'danger');
     }
+  };
+
+  const handelRowClick = (e, rowData) => {
+    //TODO: here go to details page
+    console.log('r', rowData);
   };
 
   if (loading) {
@@ -341,12 +346,6 @@ const RentsList = () => {
             onClick: endRent,
             disabled: !rowData.hasStarted || rowData.hasEnded,
           }),
-          (rowData) => ({
-            icon: () => <DetailsIcon style={styles.detailsIcon} />,
-            tooltip: 'Details',
-            onClick: () => history.push(`/rents/${rowData.id}`),
-            position: 'toolbarOnSelect',
-          }),
         ]}
         title='Rents List'
         options={{
@@ -359,6 +358,7 @@ const RentsList = () => {
           },
         }}
         icons={tableIcons}
+        onRowClick={handelRowClick}
       />
     </>
   );

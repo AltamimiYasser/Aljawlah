@@ -94,6 +94,7 @@ const BikesList = () => {
     { title: 'Size', field: 'size' },
     { title: 'Wheels', field: 'wheels' },
     { title: 'Working Hours', field: 'workingHours' },
+    { title: 'Out', field: 'isOut' },
   ];
 
   const tableIcons = {
