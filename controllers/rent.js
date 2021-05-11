@@ -227,8 +227,19 @@ exports.pauseTime = async (req, res) => {
     const dateLastStarted = rent.lastStartTime;
     let difference = calcTimeDiffInSeconds(dateLastStarted, now);
 
+    // update bikes working hours
+    const changeBikeWorkingHours = async () => {
+      for (const bikeId of rent.bikes) {
+        const bike = await Bike.findById(bikeId);
+        if (!bike) console.log(`bike not found`);
+        bike.workingHours += difference;
+        await bike.save();
+      }
+    };
+    changeBikeWorkingHours();
+
     // add the difference + the last calculated time
-    rent.timeOut = difference + rent.timeOut;
+    rent.timeOut += difference;
 
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
@@ -341,6 +352,7 @@ exports.endTime = async (req, res) => {
         const bike = await Bike.findById(bikeId);
         if (!bike) continue;
         bike.isOut = false;
+        bike.workingHours += difference;
         await bike.save();
       }
     };

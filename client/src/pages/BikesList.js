@@ -93,7 +93,16 @@ const BikesList = () => {
     { title: 'Rent Price', field: 'rentPrice' },
     { title: 'Size', field: 'size' },
     { title: 'Wheels', field: 'wheels' },
-    { title: 'Working Hours', field: 'workingHours' },
+    {
+      title: 'Working Hours',
+      field: 'workingHours',
+      render: (rowData) => {
+        const time = new Date(rowData.workingHours * 1000)
+          .toISOString()
+          .substr(11, 8);
+        return <>{time}</>;
+      },
+    },
     { title: 'Out', field: 'isOut' },
   ];
 
