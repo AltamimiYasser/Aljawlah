@@ -1,5 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { colors } from '../../utils/styles';
+
+const buttonDisabled = css`
+  background-color: #626262;
+  &:hover {
+    background-color: #626262;
+    cursor: default;
+  }
+`;
 
 export const StyledButton = styled.button`
   width: 80%;
@@ -20,4 +28,6 @@ export const StyledButton = styled.button`
     background-color: ${(props) => (props.color ? props.color.hover : '#fff')};
     cursor: pointer;
   }
+
+  ${(props) => props.disabled && buttonDisabled}
 `;

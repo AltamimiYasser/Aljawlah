@@ -17,7 +17,7 @@ const Form = (props) => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handelSubmit}>
-      {(formik) => (
+      {(props) => (
         <FormWrapper>
           <Title>{title}</Title>
           <FormFields>
@@ -32,7 +32,10 @@ const Form = (props) => {
                   autoComplete='off'
                 />
               ))}
-            <Button type='submit' color={colors.CALL_TO_ACTION}>
+            <Button
+              type='submit'
+              color={colors.CALL_TO_ACTION}
+              disabled={!props.isValid}>
               Submit
             </Button>
           </FormFields>

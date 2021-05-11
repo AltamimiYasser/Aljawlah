@@ -27,7 +27,7 @@ const CustomersForm = ({ initialValues, onSubmit }) => {
                   <Typography variant='h5'>Customer Phone</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField name='phoneNumber' label='Phone Number' />
+                  <TextField name='phoneNumber' label='Phone Number' required />
                 </Grid>
                 <Grid item xs={12}>
                   <Button startIcon={<CheckIcon />} Save>

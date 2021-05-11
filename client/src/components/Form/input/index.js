@@ -7,7 +7,7 @@ const Input = (props) => {
   const { label, name, ...rest } = props;
   return (
     <FormGroup>
-      <InputField name={name} id={name} {...rest} />
+      <InputField name={name} id={name} {...rest} required />
       <ErrorMessage name={name} component={ErrorText} />
     </FormGroup>
   );

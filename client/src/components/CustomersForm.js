@@ -32,13 +32,13 @@ const CustomersForm = ({ initialValues, onSubmit }) => {
                   <Typography variant='h5'>Customer Info</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField name='fName' label='First Name' />
+                  <TextField name='fName' label='First Name' required />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField name='lName' label='Last Name' />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField name='phone' label='Phone Number' />
+                  <TextField name='phone' label='Phone Number' required />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField name='idNumber' label='ID' />

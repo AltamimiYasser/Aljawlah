@@ -33,75 +33,80 @@ const BikesForm = ({ initialValues, onSubmit }) => {
             initialValues={{ ...initialValues }}
             validationSchema={validationSchema}
             onSubmit={onSubmit}>
-            <Form>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography variant='h5'>General Info</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField name='barcode' label='Barcode' />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField name='billNumber' label='Bill Number' />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    name='rentPrice'
-                    label='Rent Price'
-                    type='number'
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField name='model' label='Model' />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField name='plate' label='Plate' />
-                </Grid>
-                <Grid item xs={12}>
-                  <DateTimePicker
-                    name='dateOfPurchase'
-                    label='Date of Purchase'
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant='h5'>Specification</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField name='color' label='Color' />
-                </Grid>
-                <Grid item xs={6}>
-                  <Select name='wheels' label='Wheels' options={[2, 3, 4]} />
-                </Grid>
+            {(props) => (
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'>General Info</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField name='barcode' label='Barcode' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField name='billNumber' label='Bill Number' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      name='rentPrice'
+                      label='Rent Price'
+                      type='number'
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField name='model' label='Model' />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField name='plate' label='Plate' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <DateTimePicker
+                      name='dateOfPurchase'
+                      label='Date of Purchase'
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'>Specification</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField name='color' label='Color' required />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Select name='wheels' label='Wheels' options={[2, 3, 4]} />
+                  </Grid>
 
-                <Grid item xs={6}>
-                  <TextField name='size' label='Size' type='number' />
-                </Grid>
-                <Grid item xs={6}>
-                  <Select
-                    name='bikeClass'
-                    label='Class'
-                    options={['Sport', 'Children', 'Electronic', 'Hyper']}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant='h5'>Description</Typography>
-                </Grid>
+                  <Grid item xs={6}>
+                    <TextField name='size' label='Size' type='number' />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Select
+                      name='bikeClass'
+                      label='Class'
+                      options={['Sport', 'Children', 'Electronic', 'Hyper']}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant='h5'>Description</Typography>
+                  </Grid>
 
-                <Grid item xs={12}>
-                  <TextField
-                    name='description'
-                    label='Description'
-                    multiline={true}
-                    rows={6}
-                  />
+                  <Grid item xs={12}>
+                    <TextField
+                      name='description'
+                      label='Description'
+                      multiline={true}
+                      rows={6}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      startIcon={<SaveIcon />}
+                      disabled={!props.isValid || !props.dirty}
+                      Save>
+                      Save
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <Button startIcon={<SaveIcon />} Save>
-                    Save
-                  </Button>
-                </Grid>
-              </Grid>
-            </Form>
+              </Form>
+            )}
           </Formik>
         </Container>
       </Grid>

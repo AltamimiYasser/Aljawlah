@@ -12,7 +12,12 @@ const Register = () => {
 
   const validationSchema = Yup.object({
     username: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
+    password: Yup.string()
+      .required('Required')
+      .min(5, 'Must be at least 5 characters long'),
+    passwordVerification: Yup.string()
+      .required('Required')
+      .oneOf([Yup.ref('password'), null], 'Passwords must Match'),
   });
 
   const handelSubmit = async ({ username, password }) => {
@@ -45,6 +50,12 @@ const Register = () => {
       type: 'password',
       name: 'password',
       placeholder: 'Password',
+    },
+    {
+      control: 'input',
+      type: 'password',
+      name: 'passwordVerification',
+      placeholder: 'Verify Password',
     },
   ];
   return (
