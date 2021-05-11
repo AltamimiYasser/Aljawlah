@@ -3,7 +3,7 @@ const Customer = require('../models/Customer');
 // get all customers
 exports.getAll = async (req, res) => {
   try {
-    const customers = await Customer.find();
+    const customers = await Customer.find().sort({ createdAt: -1 });
     res.json(customers);
   } catch (err) {
     console.error(err);

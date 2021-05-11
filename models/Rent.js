@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const rentSchema = new mongoose.Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'customer',
@@ -56,6 +52,10 @@ const rentSchema = new mongoose.Schema({
   neverPaused: {
     type: Boolean,
     default: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 

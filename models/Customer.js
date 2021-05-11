@@ -32,6 +32,10 @@ const customerSchema = new mongoose.Schema({
       ref: 'bike',
     },
   ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('customer', customerSchema);

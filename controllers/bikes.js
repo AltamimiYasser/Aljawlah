@@ -3,7 +3,7 @@ const Bike = require('../models/Bike');
 // get all bikes
 exports.getAll = async (req, res) => {
   try {
-    const bikes = await Bike.find();
+    const bikes = await Bike.find().sort({ createdAt: -1 });
     res.json(bikes);
   } catch (err) {
     console.error(err);
