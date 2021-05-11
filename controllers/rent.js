@@ -5,6 +5,7 @@ const {
   calcPrice,
 } = require('../utils/calcTimeAndPrice');
 const { reMap, mapOne } = require('../utils/mapping');
+const Bike = require('../models/Bike');
 
 // get all rents
 exports.getAll = async (req, res) => {
@@ -160,6 +161,17 @@ exports.startTime = async (req, res) => {
     rent.timerRunning = true;
     rent.isPaused = false;
 
+    // update bikes status
+    const changeBikeStatus = async () => {
+      for (const bikeId of rent.bikes) {
+        const bike = await Bike.findById(bikeId);
+        if (!bike) console.log(`bike not found`);
+        bike.isOut = true;
+        await bike.save();
+      }
+    };
+    changeBikeStatus();
+
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
     const resRent = await Rent.findById(savedRent._id)
@@ -309,6 +321,17 @@ exports.endTime = async (req, res) => {
     rent.timeOut = difference + rent.timeOut;
     // calculate price
     rent.price = calcPrice(rent.timeOut);
+
+    // update bikes status
+    const changeBikeStatus = async () => {
+      for (const bikeId of rent.bikes) {
+        const bike = await Bike.findById(bikeId);
+        if (!bike) continue;
+        bike.isOut = false;
+        await bike.save();
+      }
+    };
+    changeBikeStatus();
 
     // update rent
     await Rent.findOneAndUpdate({ _id: id }, rent);

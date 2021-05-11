@@ -21,6 +21,8 @@ const mapOne = (rent) => {
   const bikes = rent.bikes.map((bike) => ({
     size: bike.size,
     id: bike._id,
+    isOut: bike.isOut,
+    color: bike.color,
   }));
   const startTime = rent.startTime;
   const endTime = rent.endTime;

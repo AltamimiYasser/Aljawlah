@@ -43,6 +43,10 @@ const bikeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isOut: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('bike', bikeSchema);

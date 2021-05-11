@@ -1,16 +1,21 @@
-import axios from 'axios';
 import React from 'react';
+import axios from 'axios';
 import notify from '../utils/notifications';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import CustomersForm from '../components/CustomersForm';
 
-const AddCustomerForm = () => {
+const AddCustomerForm = (props) => {
   const history = useHistory();
+
+  // configure if we are coming from a new rent page
+  const location = useLocation();
+  let phoneNumber;
+  if (location.state) phoneNumber = location.state[0].phoneNumber;
 
   const initialValues = {
     fName: '', // info - TextFiled DONE
     lName: '', // specification - TextFiled DONE
-    phone: '', // specification - number? options DONE
+    phone: phoneNumber || '', // specification - number? options DONE
     idNumber: '', // info - TextFiled DONE
     sex: '', // info - Date picker DONE
   };
@@ -23,7 +28,11 @@ const AddCustomerForm = () => {
       if (res.status === 200) {
         notify('Saved', 'Customer Added successfully', 'success');
         // TODO: redirect
-        history.push('/customers');
+        if (!phoneNumber) {
+          history.push('/customers');
+        } else {
+          history.push('/rents/choosebike', [{ customerId: res.data._id }]);
+        }
       }
     } catch (err) {
       const error = err.response.data.errors[0].msg || 'Unknown Error';

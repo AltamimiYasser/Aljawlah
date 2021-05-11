@@ -7,6 +7,7 @@ const {
   getCustomer,
   removeCustomer,
   updateCustomer,
+  getCustomerByPhone,
 } = require('../controllers/customers');
 const { validateNewCustomer } = require('../utils/customerValidation');
 
@@ -24,5 +25,10 @@ router.put('/:id', userAuth, updateCustomer);
 
 // remove a customer
 router.delete('/:id', userAuth, removeCustomer);
+
+// get a customer by phone
+// return true and customer if found
+// return false and null if not found
+router.get('/byphone/:phone', userAuth, getCustomerByPhone);
 
 module.exports = router;

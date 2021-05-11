@@ -15,10 +15,12 @@ import EditBikeForm from '../pages/EditBikeForm';
 import AddCustomerForm from '../pages/AddCustomerForm';
 import EditCustomerForm from '../pages/EditCustomerForm';
 import CustomersList from '../pages/CustomersList';
+import AddRentPhone from '../pages/AddRentPhone';
 
 import UserContext from '../context/userContext';
 import AdminContext from '../context/adminContext';
 import { useEffect } from 'react';
+import RentChooseBikeForm from '../pages/RentChooseBikeForm';
 
 const Router = () => {
   const { loggedIn: loggedInUser } = useContext(UserContext);
@@ -32,15 +34,13 @@ const Router = () => {
     } else {
       setAnyLoggedIn(false);
     }
-
-    console.log(`adminLogged? ${loggedInAdmin} userLogged? ${loggedInUser}`);
   }, [loggedInAdmin, loggedInUser]);
 
   return (
     <Page loggedIn={anyLoggedIn}>
       <Switch>
-        <Route path='/adminlogin' component={AdminLogin} />
-        <AdminPrivateRoute path='/register'>
+        <Route exact path='/adminlogin' component={AdminLogin} />
+        <AdminPrivateRoute exact path='/register'>
           <Register />
         </AdminPrivateRoute>
         <AdminPrivateRoute exact path='/bikes'>
@@ -55,20 +55,28 @@ const Router = () => {
         <AdminPrivateRoute exact path='/bikes/edit/:id'>
           <EditBikeForm />
         </AdminPrivateRoute>
-        <Route path='/login' component={Login} />
-        <UserPrivateRoute path='/rents'>
+        <Route exact path='/login' component={Login} />
+        <UserPrivateRoute exact path='/rents'>
           <RentsList />
         </UserPrivateRoute>
         <UserPrivateRoute exact path='/customers'>
           <CustomersList />
         </UserPrivateRoute>
-        <UserPrivateRoute path='/customers/new'>
+        <UserPrivateRoute exact path='/customers/new'>
           <AddCustomerForm />
         </UserPrivateRoute>
-        <UserPrivateRoute path='/customers/edit/:id'>
+        <UserPrivateRoute exact path='/customers/edit/:id'>
           <EditCustomerForm />
         </UserPrivateRoute>
-        <Route path='/' component={Landing} />
+        <UserPrivateRoute exact path='/rents/new'>
+          <AddRentPhone />
+        </UserPrivateRoute>
+        <UserPrivateRoute exact path='/rents/choosebike'>
+          <RentChooseBikeForm />
+        </UserPrivateRoute>
+        <Route path='/'>
+          <Landing />
+        </Route>
       </Switch>
     </Page>
   );
