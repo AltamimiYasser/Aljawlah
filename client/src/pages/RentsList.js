@@ -27,7 +27,6 @@ import PlayCircleFilledSharpIcon from '@material-ui/icons/PlayCircleFilledSharp'
 import PauseCircleFilledSharpIcon from '@material-ui/icons/PauseCircleFilledSharp';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
-import DetailsIcon from '@material-ui/icons/Details';
 import Timer from '../components/Timer';
 
 const useStyles = makeStyles((theme) => ({

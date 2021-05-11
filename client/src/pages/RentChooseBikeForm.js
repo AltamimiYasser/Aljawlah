@@ -22,7 +22,6 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import notify from '../utils/notifications';
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +135,7 @@ const RentChooseBikeForm = () => {
   const handelSubmit = async (e, data) => {
     setLoading(true);
     try {
-      const res = await axios.post('/api/rents', {
+      await axios.post('/api/rents', {
         customer: customerId,
         bikes: selectedBikes,
       });
