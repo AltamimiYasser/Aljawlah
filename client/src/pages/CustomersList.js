@@ -69,8 +69,9 @@ const CustomersList = () => {
         setLoading(false);
       })
       .catch((err) => {
-        // TODO: add notification
-        console.error(err);
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       });
   }, []);
 
@@ -138,12 +139,15 @@ const CustomersList = () => {
             setLoading(false);
           })
           .catch((err) => {
-            // TODO: add notification
-            console.error(err);
+            let error = 'Unknown Error';
+            if (err.response.data.errors)
+              error = err.response.data.errors[0].msg;
+            notify('Error', error, 'danger');
           });
       } catch (err) {
-        // TODO: makes suer error message works
-        notify('Error', err.message, 'danger');
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       }
       // call delete bike by id
     });

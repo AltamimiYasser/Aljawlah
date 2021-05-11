@@ -27,7 +27,8 @@ const AddRentPhone = () => {
         history.push('/customers/new', [{ phoneNumber: values.phoneNumber }]);
       }
     } catch (err) {
-      const error = err.response.data.errors[0].msg || 'Unknown Error';
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };

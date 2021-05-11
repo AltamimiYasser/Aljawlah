@@ -35,7 +35,6 @@ const AppContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  //TODO: Fix all media query to fix width for smaller devices
 `;
 
 export default App;

@@ -28,12 +28,12 @@ const Register = () => {
       });
       if (res.status === 200) {
         notify('Saved', 'User Register Successfully', 'success');
-        //TODO redirect
 
         history.push('/users');
       }
     } catch (err) {
-      const error = err.response.data.errors[0].msg;
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };

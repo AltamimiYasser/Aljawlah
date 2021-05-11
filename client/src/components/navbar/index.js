@@ -6,6 +6,7 @@ import UserContext from '../../context/userContext';
 import ThemeContext from '../../context/themeContext';
 import { DirectionsBike } from '@styled-icons/material/DirectionsBike';
 import { Nav } from './Elemnts';
+import notify from '../../utils/notifications';
 
 const Navbar = () => {
   const history = useHistory();
@@ -39,7 +40,9 @@ const Navbar = () => {
       await axios.get('/api/auth/admin/logout');
       redirectAdmin();
     } catch (err) {
-      console.log(err);
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 
@@ -48,7 +51,9 @@ const Navbar = () => {
       await axios.get('/api/auth/users/logout');
       redirectUser();
     } catch (err) {
-      console.log(err);
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 

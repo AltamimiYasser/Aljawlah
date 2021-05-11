@@ -38,11 +38,11 @@ const AddBikeForm = () => {
 
       if (res.status === 200) {
         notify('Saved', 'Bike Added successfully', 'success');
-        // TODO: redirect
         history.push('/bikes');
       }
     } catch (err) {
-      const error = err.response.data.errors[0].msg || 'Unknown Error';
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };

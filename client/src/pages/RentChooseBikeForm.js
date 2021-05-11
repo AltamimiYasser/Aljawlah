@@ -71,8 +71,9 @@ const RentChooseBikeForm = () => {
         setLoading(false);
       })
       .catch((err) => {
-        // TODO: add notification
-        console.error(err);
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       });
   }, []);
 
@@ -150,7 +151,9 @@ const RentChooseBikeForm = () => {
       setLoading(false);
       history.push('/rents');
     } catch (err) {
-      console.err(err);
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 

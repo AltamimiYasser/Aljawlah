@@ -42,7 +42,7 @@ exports.validateSignIn = [
     const user = await User.findOne({ username: req.body.username });
 
     // compare the passwords
-    const match = bcrypt.compare(value, user.password);
+    const match = await bcrypt.compare(value, user.password);
 
     // error if not match
     if (!match) return Promise.reject('wrong username or password');

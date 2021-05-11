@@ -62,7 +62,7 @@
 //   "__v": 0
 // }
 
-//TODO: design a page with taps for user with user details and
+//design a page with taps for user with user details and
 // for bikes the users just rented and the rent itself
 // in the user's tap display bikes that the users used before
 // for that we need to chang the bikes list page to a components

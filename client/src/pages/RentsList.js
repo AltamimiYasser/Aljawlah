@@ -126,8 +126,9 @@ const RentsList = () => {
         setLoading(false);
       })
       .catch((err) => {
-        // TODO: add notification
-        console.error(err);
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       });
   }, []);
 
@@ -208,8 +209,9 @@ const RentsList = () => {
         setRents(res.data);
       })
       .catch((err) => {
-        // TODO: add notification
-        console.error(err);
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       });
   };
 
@@ -221,8 +223,9 @@ const RentsList = () => {
       // load data
       loadData();
     } catch (err) {
-      const errorMsg = err.response.data.errors[0].msg;
-      notify('error', errorMsg || 'Error', 'danger');
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 
@@ -234,8 +237,9 @@ const RentsList = () => {
       // load data
       loadData();
     } catch (err) {
-      const errorMsg = err.response.data.errors[0].msg;
-      notify('error', errorMsg || 'Error', 'danger');
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 
@@ -247,8 +251,9 @@ const RentsList = () => {
       // load data
       loadData();
     } catch (err) {
-      const errorMsg = err.response.data.errors[0].msg;
-      notify('error', errorMsg || 'Error', 'danger');
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 
@@ -273,8 +278,9 @@ const RentsList = () => {
       // load data
       loadData();
     } catch (err) {
-      const errorMsg = err.response.data.errors[0].msg;
-      notify('error', errorMsg || 'Error', 'danger');
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      notify('Error', error, 'danger');
     }
   };
 

@@ -33,11 +33,9 @@ const Login = (props) => {
         redirect();
       })
       .catch((err) => {
-        notify(
-          'Error',
-          err.response.data.errors[0].msg || 'Unknown error',
-          'danger'
-        );
+        let error = 'Unknown Error';
+        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        notify('Error', error, 'danger');
       });
   };
 

@@ -27,7 +27,6 @@ const AddCustomerForm = (props) => {
 
       if (res.status === 200) {
         notify('Saved', 'Customer Added successfully', 'success');
-        // TODO: redirect
         if (!phoneNumber) {
           history.push('/customers');
         } else {
@@ -35,7 +34,8 @@ const AddCustomerForm = (props) => {
         }
       }
     } catch (err) {
-      const error = err.response.data.errors[0].msg || 'Unknown Error';
+      let error = 'Unknown Error';
+      if (err.response.data.errors) error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };
