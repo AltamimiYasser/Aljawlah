@@ -4,7 +4,7 @@ import AdminLogin from '../pages/AdminLogin';
 import Landing from '../pages/Landing';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
-import RentsList from '../pages/RentsList';
+import MainRentsList from '../pages/MainRentsList';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import UserPrivateRoute from './UserPrivateRoute';
 import styled, { css } from 'styled-components';
@@ -58,7 +58,7 @@ const Router = () => {
         </AdminPrivateRoute>
         <Route exact path='/login' component={Login} />
         <UserPrivateRoute exact path='/rents'>
-          <RentsList />
+          <MainRentsList />
         </UserPrivateRoute>
         <UserPrivateRoute exact path='/customers'>
           <CustomersList />

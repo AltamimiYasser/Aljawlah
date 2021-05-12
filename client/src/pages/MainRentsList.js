@@ -103,7 +103,7 @@ const calcTimeDiffInSeconds = (start, end) => {
   return difference;
 };
 
-const RentsList = () => {
+const MainRentsList = () => {
   //
   const history = useHistory();
 
@@ -370,4 +370,4 @@ const RentsList = () => {
   );
 };
 
-export default RentsList;
+export default MainRentsList;

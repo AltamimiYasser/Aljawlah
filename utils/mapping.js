@@ -18,12 +18,15 @@ const mapOne = (rent) => {
     phone = rent.customer.phone;
     customerId = rent.customer._id;
   }
-  const bikes = rent.bikes.map((bike) => ({
-    size: bike.size,
-    id: bike._id,
-    isOut: bike.isOut,
-    color: bike.color,
-  }));
+  let bikes = [];
+  if (rent.bikes) {
+    bikes = rent.bikes.map((bike) => ({
+      size: bike.size,
+      id: bike._id,
+      isOut: bike.isOut,
+      color: bike.color,
+    }));
+  }
   const startTime = rent.startTime;
   const endTime = rent.endTime;
   const id = rent._id;

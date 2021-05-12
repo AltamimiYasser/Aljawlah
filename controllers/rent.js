@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Rent = require('../models/Rent');
 const Customer = require('../models/Customer');
 const {
@@ -371,6 +372,30 @@ exports.endTime = async (req, res) => {
       return res
         .status(400)
         .json({ errors: [{ msg: 'Customer or Bike not found' }] });
+
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+  }
+};
+
+// get a bunch of rents by their ids
+exports.getRentsByIds = async (req, res) => {
+  try {
+    const ids = req.body.ids;
+
+    // map ids to object ids
+    const rentsIds = ids.map((id) => {
+      if (id) return mongoose.Types.ObjectId(id);
+    });
+
+    const rents = await Rent.find({ _id: { $in: rentsIds } })
+      .populate('customer')
+      .populate('bikes')
+      .sort({ createdAt: -1 });
+    res.json(reMap(rents));
+  } catch (err) {
+    console.error(err);
+    if (err.kind === 'ObjectId')
+      return res.status(400).json({ errors: [{ msg: 'Rent Not Found' }] });
 
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }

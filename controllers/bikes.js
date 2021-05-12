@@ -92,6 +92,4 @@ exports.getBikesByIds = async (req, res) => {
 
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
-
-  console.log(req.body);
 };
