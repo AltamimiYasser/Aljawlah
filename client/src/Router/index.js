@@ -16,7 +16,7 @@ import AddCustomerForm from '../pages/AddCustomerForm';
 import EditCustomerForm from '../pages/EditCustomerForm';
 import CustomersList from '../pages/CustomersList';
 import AddRentPhone from '../pages/AddRentPhone';
-import RentDetails from '../pages/RentDetails';
+import RentDetailsMainPage from '../pages/RentDetailsMainPage';
 
 import UserContext from '../context/userContext';
 import AdminContext from '../context/adminContext';
@@ -76,7 +76,7 @@ const Router = () => {
           <RentChooseBikeForm />
         </UserPrivateRoute>
         <UserPrivateRoute exact path='/rents/:id'>
-          <RentDetails />
+          <RentDetailsMainPage />
         </UserPrivateRoute>
         <Route path='/'>
           <Landing />
