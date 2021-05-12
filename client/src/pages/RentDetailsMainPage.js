@@ -6,8 +6,8 @@ import RentDetailsBikesList from './RentDetailsBikesList';
 import axios from 'axios';
 import notify from '../utils/notifications';
 import ThemeContext from '../context/themeContext';
-import RentCustomerDetailsPage from './RentCustomerDetailsPage';
 import RentDetails from './RentDetails';
+import CustomerDetail from '../components/CustomerDetails';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -82,10 +82,8 @@ const RentDetailsMainPage = () => {
         <Tab label='Rent' />
       </Tabs>
       {selectedTab === 0 && <RentDetailsBikesList bikes={rent.bikes} />}
-      {selectedTab === 1 && (
-        <RentCustomerDetailsPage rentCustomer={rent.customer} />
-      )}
-      {selectedTab === 2 && <RentDetails rentBikes={rent.bikes} />}
+      {selectedTab === 1 && <CustomerDetail customer={rent.customer} />}
+      {selectedTab === 2 && <RentDetails bikes={rent.bikes} />}
     </>
   );
 };
