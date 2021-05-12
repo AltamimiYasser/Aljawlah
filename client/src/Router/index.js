@@ -22,6 +22,8 @@ import UserContext from '../context/userContext';
 import AdminContext from '../context/adminContext';
 import { useEffect } from 'react';
 import RentChooseBikeForm from '../pages/RentChooseBikeForm';
+import CustomerDetail from '../components/CustomerDetails';
+import CustomerDetailsPage from '../pages/CustomerDetailsPage';
 
 const Router = () => {
   const { loggedIn: loggedInUser } = useContext(UserContext);
@@ -77,6 +79,9 @@ const Router = () => {
         </UserPrivateRoute>
         <UserPrivateRoute exact path='/rents/:id'>
           <RentDetailsMainPage />
+        </UserPrivateRoute>
+        <UserPrivateRoute exact path='/customers/:id'>
+          <CustomerDetailsPage />
         </UserPrivateRoute>
         <Route path='/'>
           <Landing />

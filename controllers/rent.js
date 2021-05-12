@@ -289,6 +289,17 @@ exports.resumeTime = async (req, res) => {
     rent.lastStartTime = new Date();
     rent.timerRunning = true;
 
+    // update to isOut
+    const changeBikeWorkingHours = async () => {
+      for (const bikeId of rent.bikes) {
+        const bike = await Bike.findById(bikeId);
+        if (!bike) console.log(`bike not found`);
+        bike.isOut = true;
+        await bike.save();
+      }
+    };
+    changeBikeWorkingHours();
+
     await Rent.findOneAndUpdate({ _id: id }, rent);
     const savedRent = await Rent.findById(id);
     const resRent = await Rent.findById(savedRent._id)

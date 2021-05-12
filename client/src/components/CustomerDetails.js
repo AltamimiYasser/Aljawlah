@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomerDetail = ({ customer }) => {
+const CustomerDetails = ({ customer }) => {
   const bikesIds = customer.bikes;
   const rentsIds = customer.rents;
 
@@ -101,4 +101,4 @@ const Container = styled.div`
   }
 `;
 
-export default CustomerDetail;
+export default CustomerDetails;

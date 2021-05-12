@@ -133,6 +133,13 @@ const MainRentsList = () => {
   }, []);
 
   const columns = [
+    {
+      title: 'Date',
+      field: 'createdAt',
+      render: ({ date }) => {
+        return <>{moment(date).format('DD-MM-YYYY hh:mm')}</>;
+      },
+    },
     { title: 'Name', field: 'name' },
     { title: 'Phone', field: 'phone' },
     {

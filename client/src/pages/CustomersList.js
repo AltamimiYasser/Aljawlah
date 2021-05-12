@@ -157,6 +157,13 @@ const CustomersList = () => {
     history.push('/customers/new');
   };
 
+  const handleRowClick = (e, rowData) => {
+    //TODO: here go to details page
+    const id = rowData._id;
+    console.log(rowData);
+    history.push(`/customers/${id}`);
+  };
+
   if (loading) {
     return (
       <div className={classes.root}>
@@ -171,6 +178,7 @@ const CustomersList = () => {
       <MaterielTable
         columns={columns}
         data={customers}
+        onRowClick={handleRowClick}
         actions={[
           {
             icon: () => <Edit />,
