@@ -286,7 +286,8 @@ const RentsList = () => {
 
   const handelRowClick = (e, rowData) => {
     //TODO: here go to details page
-    console.log('r', rowData);
+    const id = rowData.id;
+    history.push(`/rents/${id}`);
   };
 
   if (loading) {

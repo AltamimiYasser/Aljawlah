@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Bike = require('../models/Bike');
 
 // get all bikes
@@ -74,4 +75,23 @@ exports.updateBike = async (req, res) => {
 
     res.status(500).json({ errors: [{ msg: 'Server error' }] });
   }
+};
+
+// get a bunch of bikes by their ids
+exports.getBikesByIds = async (req, res) => {
+  try {
+    const ids = req.body.ids;
+    // map ids to object ids
+    const bikesIds = ids.map((id) => mongoose.Types.ObjectId(id));
+    const bikes = await Bike.find({ _id: { $in: bikesIds } });
+    res.json(bikes);
+  } catch (err) {
+    console.error(err);
+    if (err.kind === 'ObjectId')
+      return res.status(400).json({ errors: [{ msg: 'Bike not found' }] });
+
+    res.status(500).json({ errors: [{ msg: 'Server error' }] });
+  }
+
+  console.log(req.body);
 };

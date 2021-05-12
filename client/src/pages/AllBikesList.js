@@ -46,7 +46,7 @@ const styles = {
   },
 };
 
-const BikesList = () => {
+const AllBikesList = () => {
   //
   const confirm = useConfirm();
   const history = useHistory();
@@ -228,4 +228,4 @@ const BikesList = () => {
   );
 };
 
-export default BikesList;
+export default AllBikesList;

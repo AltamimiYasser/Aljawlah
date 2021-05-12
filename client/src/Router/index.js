@@ -8,7 +8,7 @@ import RentsList from '../pages/RentsList';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import UserPrivateRoute from './UserPrivateRoute';
 import styled, { css } from 'styled-components';
-import BikesList from '../pages/BikesList';
+import AllBikesList from '../pages/AllBikesList';
 import UsersList from '../pages/UsersList';
 import AddBikeForm from '../pages/AddBikeForm';
 import EditBikeForm from '../pages/EditBikeForm';
@@ -16,6 +16,7 @@ import AddCustomerForm from '../pages/AddCustomerForm';
 import EditCustomerForm from '../pages/EditCustomerForm';
 import CustomersList from '../pages/CustomersList';
 import AddRentPhone from '../pages/AddRentPhone';
+import RentDetails from '../pages/RentDetails';
 
 import UserContext from '../context/userContext';
 import AdminContext from '../context/adminContext';
@@ -44,7 +45,7 @@ const Router = () => {
           <Register />
         </AdminPrivateRoute>
         <AdminPrivateRoute exact path='/bikes'>
-          <BikesList />
+          <AllBikesList />
         </AdminPrivateRoute>
         <AdminPrivateRoute exact path='/users'>
           <UsersList />
@@ -73,6 +74,9 @@ const Router = () => {
         </UserPrivateRoute>
         <UserPrivateRoute exact path='/rents/choosebike'>
           <RentChooseBikeForm />
+        </UserPrivateRoute>
+        <UserPrivateRoute exact path='/rents/:id'>
+          <RentDetails />
         </UserPrivateRoute>
         <Route path='/'>
           <Landing />
