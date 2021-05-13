@@ -13,19 +13,19 @@ const {
 const { validateNewBike } = require('../utils/bikeValidation');
 
 // list all bikes
-router.get('/', adminAuth, getAll);
+router.get('/', userAuth, getAll);
 
 // get bike by id
-router.get('/:id', adminAuth, getBike);
+router.get('/:id', userAuth, getBike);
 
 // add a new bike
 router.post('/', adminAuth, validateNewBike, createBike);
 
 // delete a bike
-router.delete('/:id', removeBike);
+router.delete('/:id', adminAuth, removeBike);
 
 // update a bike
-router.put('/:id', updateBike);
+router.put('/:id', adminAuth, updateBike);
 
 // get bikes by ids
 router.post('/group', userAuth, getBikesByIds);

@@ -1,6 +1,12 @@
-import { CircularProgress } from '@material-ui/core';
+import {
+  makeStyles,
+  CircularProgress,
+  Divider,
+  Container,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import BikesList from '../components/BikesList';
@@ -24,7 +30,6 @@ const CustomerDetails = ({ customer }) => {
   const rentsIds = customer.rents;
 
   const classes = useStyles();
-
   // state
   const [loading, setLoading] = useState(true);
   const [bikes, setBikes] = useState([]);
@@ -77,7 +82,46 @@ const CustomerDetails = ({ customer }) => {
   }
 
   return (
-    <Container>
+    <TopContainer>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant='h6' gutterBottom>
+            Name
+          </Typography>
+          <Typography
+            variant='subtitle1'
+            gutterBottom>{`${customer.fName} ${customer.lName}`}</Typography>
+          <Divider style={{ marginBottom: '3rem' }} />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant='h6' gutterBottom>
+            Phone Number
+          </Typography>
+          <Typography variant='subtitle1' gutterBottom>
+            {customer.phone}
+          </Typography>
+          <Divider style={{ marginBottom: '3rem' }} />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant='h6' gutterBottom>
+            ID Number
+          </Typography>
+          <Typography variant='subtitle1' gutterBottom>
+            {customer.idNumber}
+          </Typography>
+          <Divider style={{ marginBottom: '3rem' }} />
+        </Grid>
+
+        <Grid item xs={6}>
+          <Typography variant='h6' gutterBottom>
+            Sex
+          </Typography>
+          <Typography variant='subtitle1' gutterBottom>
+            {customer.sex}
+          </Typography>
+          <Divider style={{ marginBottom: '3rem' }} />
+        </Grid>
+      </Grid>
       <div className='divider' />
       <BikesList
         bikes={bikes}
@@ -86,18 +130,17 @@ const CustomerDetails = ({ customer }) => {
       />
       <div className='divider' />
       <RentList rents={rents} title='Customer Rents' className='table' />
-    </Container>
+    </TopContainer>
   );
 };
 
-const Container = styled.div`
+const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5rem 0;
+  margin: 0 0 5rem 0;
   padding: 5px;
   .divider {
-    margin: 5px;
-    padding: 3rem;
+    height: 3rem;
   }
 `;
 

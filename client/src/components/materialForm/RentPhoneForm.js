@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import TextField from './textField';
 import Button from './button';
 
-const CustomersForm = ({ initialValues, onSubmit }) => {
+const RentPhoneForm = ({ initialValues, onSubmit }) => {
   const validationSchema = Yup.object({
     phoneNumber: Yup.number().required('Required'),
   });
@@ -43,4 +43,4 @@ const CustomersForm = ({ initialValues, onSubmit }) => {
   );
 };
 
-export default CustomersForm;
+export default RentPhoneForm;

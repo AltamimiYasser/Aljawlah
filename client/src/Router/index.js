@@ -22,7 +22,6 @@ import UserContext from '../context/userContext';
 import AdminContext from '../context/adminContext';
 import { useEffect } from 'react';
 import RentChooseBikeForm from '../pages/RentChooseBikeForm';
-import CustomerDetail from '../components/CustomerDetails';
 import CustomerDetailsPage from '../pages/CustomerDetailsPage';
 
 const Router = () => {
