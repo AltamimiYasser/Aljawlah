@@ -2,7 +2,6 @@ import {
   makeStyles,
   CircularProgress,
   Divider,
-  Container,
   Grid,
   Typography,
 } from '@material-ui/core';

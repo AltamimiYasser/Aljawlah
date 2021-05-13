@@ -83,7 +83,7 @@ const RentDetailsMainPage = () => {
       </Tabs>
       {selectedTab === 0 && <RentDetailsBikesList bikes={rent.bikes} />}
       {selectedTab === 1 && <CustomerDetail customer={rent.customer} />}
-      {selectedTab === 2 && <RentDetails bikes={rent.bikes} />}
+      {selectedTab === 2 && <RentDetails rent={rent} />}
     </>
   );
 };
