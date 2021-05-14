@@ -25,8 +25,28 @@ const RentDetails = ({ rent }) => {
     startTime,
     endTime,
   } = rent;
-  console.log(rent);
-  console.log(createdAt);
+
+  const formatTime = (time) => moment(time).format('HH:mm');
+
+  const renderStatus = () => {
+    if (!hasStarted) return 'Ready to go';
+
+    if (hasStarted && !hasEnded)
+      return (
+        <>
+          Started At <strong>{formatTime(startTime)}</strong>
+        </>
+      );
+
+    if (hasEnded)
+      return (
+        <>
+          Started At <strong>{formatTime(startTime)}</strong> and ended at{' '}
+          <strong>{formatTime(endTime)}</strong>
+        </>
+      );
+  };
+
   return (
     <Container maxWidth='mid' style={{ marginTop: '5rem' }}>
       <Grid container spacing={2}>
@@ -57,19 +77,7 @@ const RentDetails = ({ rent }) => {
         </Grid>
         <Grid item xs={6}>
           <Typography variant='h6'>Status</Typography>
-          <Typography variant='subtitle1'>
-            {!hasStarted && `Ready to go`}
-            {hasStarted && !hasEnded && (
-              <>`Started At ${moment(createdAt).format('hh:mm')}`</>
-            )}
-            {hasEnded && (
-              <>
-                Started at{' '}
-                <strong> {moment(startTime).format('hh:mm')} </strong> and ended
-                at <strong>{moment(endTime).format('hh:mm')} </strong>
-              </>
-            )}
-          </Typography>
+          <Typography variant='subtitle1'>{renderStatus()}</Typography>
           <Divider style={{ marginBottom: '3rem' }} />
         </Grid>
       </Grid>

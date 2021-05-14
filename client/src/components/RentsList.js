@@ -124,7 +124,6 @@ const MainRentsList = ({ rents, title }) => {
   ];
 
   const handelRowClick = (e, rowData) => {
-    //TODO: here go to details page
     const id = rowData.id;
     history.push(`/rents/${id}`);
   };
