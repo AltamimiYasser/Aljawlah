@@ -48,7 +48,8 @@ const RentDetailsMainPage = () => {
         setRent(res.data);
       } catch (err) {
         let error = 'Unknown Error';
-        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        if (err.response.data && err.response.data.errors)
+          error = err.response.data.errors[0].msg;
         notify('Error', error, 'danger');
       }
     };
@@ -58,7 +59,6 @@ const RentDetailsMainPage = () => {
   const handleChangeTab = (event, newTab) => {
     setSelectedTab(newTab);
   };
-  console.log(rent._id);
 
   if (loading) {
     return (
@@ -81,9 +81,9 @@ const RentDetailsMainPage = () => {
         <Tab label='Customer' />
         <Tab label='Rent' />
       </Tabs>
-      {selectedTab === 0 && <RentDetailsBikesList bikes={rent.bikes} />}
-      {selectedTab === 1 && <CustomerDetail customer={rent.customer} />}
-      {selectedTab === 2 && <RentDetails rent={rent} />}
+      {selectedTab === 0 ? <RentDetailsBikesList bikes={rent.bikes} /> : null}
+      {selectedTab === 1 ? <CustomerDetail customer={rent.customer} /> : null}
+      {selectedTab === 2 ? <RentDetails rent={rent} /> : null}
     </>
   );
 };

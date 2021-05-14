@@ -34,8 +34,6 @@ const CustomerDetails = ({ customer }) => {
   const [bikes, setBikes] = useState([]);
   const [rents, setRents] = useState([]);
 
-  console.log('rents', rents);
-
   // use effect to get bikes
   useEffect(() => {
     setLoading(true);
@@ -64,7 +62,8 @@ const CustomerDetails = ({ customer }) => {
         setLoading(false);
       } catch (err) {
         let error = 'Unknown Error';
-        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        if (err.response.data && err.response.data.errors)
+          error = err.response.data.errors[0].msg;
         notify('Error', error, 'danger');
       }
     };
@@ -84,7 +83,7 @@ const CustomerDetails = ({ customer }) => {
     <TopContainer>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant='h6' gutterBottom>
+          <Typography variant='h6' color='textSecondary' gutterBottom>
             Name
           </Typography>
           <Typography
@@ -93,7 +92,7 @@ const CustomerDetails = ({ customer }) => {
           <Divider style={{ marginBottom: '3rem' }} />
         </Grid>
         <Grid item xs={12}>
-          <Typography variant='h6' gutterBottom>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Phone Number
           </Typography>
           <Typography variant='subtitle1' gutterBottom>
@@ -102,7 +101,7 @@ const CustomerDetails = ({ customer }) => {
           <Divider style={{ marginBottom: '3rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' gutterBottom>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             ID Number
           </Typography>
           <Typography variant='subtitle1' gutterBottom>
@@ -112,7 +111,7 @@ const CustomerDetails = ({ customer }) => {
         </Grid>
 
         <Grid item xs={6}>
-          <Typography variant='h6' gutterBottom>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Sex
           </Typography>
           <Typography variant='subtitle1' gutterBottom>

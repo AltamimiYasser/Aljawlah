@@ -165,7 +165,8 @@ const AllBikesList = () => {
           });
       } catch (err) {
         let error = 'Unknown Error';
-        if (err.response.data.errors) error = err.response.data.errors[0].msg;
+        if (err.response.data && err.response.data.errors)
+          error = err.response.data.errors[0].msg;
         notify('Error', error, 'danger');
       }
       // call delete bike by id

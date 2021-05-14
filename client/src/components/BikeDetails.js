@@ -13,28 +13,28 @@ const BikeDetails = () => {
           <Typography variant='h4'>General Info</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Model
           </Typography>
           <Typography variant='subtitle1'>{bike.model}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Rent Price
           </Typography>
           <Typography variant='subtitle1'>{bike.rentPrice}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Plate
           </Typography>
           <Typography variant='subtitle1'>{bike.plate}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Total Working Hours
           </Typography>
           <Typography variant='subtitle1'>
@@ -60,14 +60,14 @@ const BikeDetails = () => {
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Bill Number
           </Typography>
           <Typography variant='subtitle1'>{bike.billNumber}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Purchase Date
           </Typography>
           <Typography variant='subtitle1'>
@@ -79,7 +79,7 @@ const BikeDetails = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Barcode
           </Typography>
           <Typography variant='subtitle1'>{bike.barcode}</Typography>
@@ -89,28 +89,28 @@ const BikeDetails = () => {
           <Typography variant='h4'>Specifications</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Color
           </Typography>
           <Typography variant='subtitle1'>{bike.color}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             size
           </Typography>
           <Typography variant='subtitle1'>{bike.size}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Wheels
           </Typography>
           <Typography variant='subtitle1'>{bike.wheels}</Typography>
           <Divider style={{ marginBottom: '1rem' }} />
         </Grid>
         <Grid item xs={6}>
-          <Typography variant='h6' color='textSecondary'>
+          <Typography variant='h6' gutterBottom color='textSecondary'>
             Class
           </Typography>
           <Typography variant='subtitle1'>{bike.bikeClass}</Typography>

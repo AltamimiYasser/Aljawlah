@@ -56,7 +56,7 @@ const BikesList = ({ bikes, title }) => {
       title: 'Date of Purchase',
       field: 'dateOfPurchase',
       render: (rowData) => {
-        if (!rowData.dateOfPurchase) return <div></div>;
+        if (!rowData.dateOfPurchase) return <div>-</div>;
         return <div>{moment(rowData.dateOfPurchase).format('DD-MM-YYYY')}</div>;
       },
     },

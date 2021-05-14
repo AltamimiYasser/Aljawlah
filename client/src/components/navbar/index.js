@@ -11,13 +11,11 @@ import notify from '../../utils/notifications';
 const Navbar = () => {
   const history = useHistory();
 
-  const { loggedIn: loggedInAdmin, getLoggedIn: getLoggedInAdmin } = useContext(
-    AdminContext
-  );
+  const { loggedIn: loggedInAdmin, getLoggedIn: getLoggedInAdmin } =
+    useContext(AdminContext);
 
-  const { loggedIn: loggedInUser, getLoggedIn: getLoggedInUser } = useContext(
-    UserContext
-  );
+  const { loggedIn: loggedInUser, getLoggedIn: getLoggedInUser } =
+    useContext(UserContext);
 
   const { theme } = useContext(ThemeContext);
 
@@ -41,7 +39,8 @@ const Navbar = () => {
       redirectAdmin();
     } catch (err) {
       let error = 'Unknown Error';
-      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      if (err.response.data && err.response.data.errors)
+        error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };
@@ -52,7 +51,8 @@ const Navbar = () => {
       redirectUser();
     } catch (err) {
       let error = 'Unknown Error';
-      if (err.response.data.errors) error = err.response.data.errors[0].msg;
+      if (err.response.data && err.response.data.errors)
+        error = err.response.data.errors[0].msg;
       notify('Error', error, 'danger');
     }
   };

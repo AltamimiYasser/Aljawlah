@@ -105,7 +105,7 @@ const Page = styled.div`
   margin: 40px auto;
   padding: 0;
 
-  ${(props) => !props.loggedIn && pageWhenNotLoggedIn}
+  ${(props) => (!props.loggedIn ? pageWhenNotLoggedIn : null)}
 `;
 
 export default Router;
