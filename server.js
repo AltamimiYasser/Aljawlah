@@ -22,6 +22,8 @@ mongoose.connect(
   () => console.log('DB connected successfully')
 );
 
+
+
 // routes setup
 app.use('/api/auth/admin', require('./routes/auth/admin'));
 app.use('/api/auth/users', require('./routes/auth/users'));
